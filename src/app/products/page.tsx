@@ -2,6 +2,7 @@
 
 "use client";
 
+import Image from "next/image";
 import React, {useEffect, useState} from "react";
 
 const Products = () => {
@@ -55,9 +56,11 @@ const Products = () => {
               key={product.id}
               className="relative flex flex-col items-center border border-gray-300 p-4 rounded-lg shadow hover:shadow-lg hover:border-blue-500 transition">
               {/* Product Image */}
-              <img
+              <Image
                 src={product.imageUri}
                 alt={product.title}
+                width={100}
+                height={100}
                 className="h-40 w-full object-cover rounded-md"
               />
 
