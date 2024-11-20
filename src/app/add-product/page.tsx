@@ -1,6 +1,7 @@
 /** @format */
 "use client";
 import React, {useEffect, useState} from "react";
+import SideNav from "../sidenav";
 export default function Page() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -61,133 +62,139 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto mt-10 p-5 bg-white shadow-lg rounded-lg">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-semibold text-blue-500">Add New Course</h2>
-        <p className="text-blue-400">Enter the course details below.</p>
+    <div className="container">
+      {" "}
+      <SideNav />
+      <div className="w-full max-w-lg mx-auto mt-10 p-5 bg-white shadow-lg rounded-lg">
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-semibold text-blue-500">
+            Add New Course
+          </h2>
+          <p className="text-blue-400">Enter the course details below.</p>
+        </div>
+        <form onSubmit={handleFormSubmit} className="space-y-5">
+          {/* Course Name */}
+          <div className="space-y-1">
+            <label htmlFor="course-name" className="block text-blue-500">
+              Course Name
+            </label>
+            <input
+              id="course-name"
+              type="text"
+              className="w-full p-3 border border-gray-300 rounded-md"
+              placeholder="Enter course name"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+
+          {/* Course Description */}
+          <div className="space-y-1">
+            <label htmlFor="course-description" className="block text-blue-500">
+              Course Description
+            </label>
+            <textarea
+              id="course-description"
+              className="w-full p-3 border border-gray-300 rounded-md"
+              placeholder="Enter course description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </div>
+
+          {/* Course Syllabus */}
+          <div className="space-y-1">
+            <label htmlFor="course-syllabus" className="block text-blue-500">
+              Course Syllabus
+            </label>
+            <textarea
+              id="course-syllabus"
+              className="w-full p-3 border border-gray-300 rounded-md"
+              placeholder="Enter course syllabus"
+              value={syllabus}
+              onChange={(e) => setSyllabus(e.target.value)}
+            />
+          </div>
+
+          {/* Course Price */}
+          <div className="space-y-1">
+            <label htmlFor="course-price" className="block text-blue-500">
+              Course Price
+            </label>
+            <input
+              id="course-price"
+              type="number"
+              className="w-full p-3 border border-gray-300 rounded-md"
+              placeholder="Enter course price"
+              value={price}
+              onChange={(e) => setPrice(Number(e.target.value))}
+            />
+          </div>
+
+          {/* Course Duration */}
+          <div className="space-y-1">
+            <label htmlFor="course-duration" className="block text-blue-500">
+              Course Duration (in hours)
+            </label>
+            <input
+              id="course-duration"
+              type="number"
+              className="w-full p-3 border border-gray-300 rounded-md"
+              placeholder="Enter course duration"
+              value={duration}
+              onChange={(e) => setDuration(Number(e.target.value))}
+            />
+          </div>
+
+          {/* Course Category */}
+          <div className="space-y-1">
+            <label htmlFor="course-category" className="block text-blue-500">
+              Course Category
+            </label>
+            <select
+              id="course-category"
+              className="w-full p-3 border border-gray-300 rounded-md"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}>
+              <option value="">Select Category</option>
+              <option value="COMPUTER">Computer</option>
+              <option value="ENGLISH">English</option>
+              <option value="OTHERS">Others</option>
+            </select>
+          </div>
+
+          {/* Course Image URL */}
+          <div className="space-y-1">
+            <label htmlFor="course-image" className="block text-blue-500">
+              Course Image URL
+            </label>
+            <input
+              id="course-image"
+              type="url"
+              className="w-full p-3 border border-gray-300 rounded-md"
+              placeholder="Enter course image URL"
+              value={imageUri}
+              onChange={(e) => setImageUri(e.target.value)}
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full py-3 mt-4 bg-blue-500 text-white rounded-md disabled:bg-blue-300"
+            disabled={
+              !title ||
+              !description ||
+              !syllabus ||
+              !price ||
+              !duration ||
+              !category ||
+              !imageUri
+            }>
+            Submit
+          </button>
+        </form>
       </div>
-      <form onSubmit={handleFormSubmit} className="space-y-5">
-        {/* Course Name */}
-        <div className="space-y-1">
-          <label htmlFor="course-name" className="block text-blue-500">
-            Course Name
-          </label>
-          <input
-            id="course-name"
-            type="text"
-            className="w-full p-3 border border-gray-300 rounded-md"
-            placeholder="Enter course name"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </div>
-
-        {/* Course Description */}
-        <div className="space-y-1">
-          <label htmlFor="course-description" className="block text-blue-500">
-            Course Description
-          </label>
-          <textarea
-            id="course-description"
-            className="w-full p-3 border border-gray-300 rounded-md"
-            placeholder="Enter course description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-
-        {/* Course Syllabus */}
-        <div className="space-y-1">
-          <label htmlFor="course-syllabus" className="block text-blue-500">
-            Course Syllabus
-          </label>
-          <textarea
-            id="course-syllabus"
-            className="w-full p-3 border border-gray-300 rounded-md"
-            placeholder="Enter course syllabus"
-            value={syllabus}
-            onChange={(e) => setSyllabus(e.target.value)}
-          />
-        </div>
-
-        {/* Course Price */}
-        <div className="space-y-1">
-          <label htmlFor="course-price" className="block text-blue-500">
-            Course Price
-          </label>
-          <input
-            id="course-price"
-            type="number"
-            className="w-full p-3 border border-gray-300 rounded-md"
-            placeholder="Enter course price"
-            value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
-          />
-        </div>
-
-        {/* Course Duration */}
-        <div className="space-y-1">
-          <label htmlFor="course-duration" className="block text-blue-500">
-            Course Duration (in hours)
-          </label>
-          <input
-            id="course-duration"
-            type="number"
-            className="w-full p-3 border border-gray-300 rounded-md"
-            placeholder="Enter course duration"
-            value={duration}
-            onChange={(e) => setDuration(Number(e.target.value))}
-          />
-        </div>
-
-        {/* Course Category */}
-        <div className="space-y-1">
-          <label htmlFor="course-category" className="block text-blue-500">
-            Course Category
-          </label>
-          <select
-            id="course-category"
-            className="w-full p-3 border border-gray-300 rounded-md"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}>
-            <option value="">Select Category</option>
-            <option value="COMPUTER">Computer</option>
-            <option value="ENGLISH">English</option>
-            <option value="OTHERS">Others</option>
-          </select>
-        </div>
-
-        {/* Course Image URL */}
-        <div className="space-y-1">
-          <label htmlFor="course-image" className="block text-blue-500">
-            Course Image URL
-          </label>
-          <input
-            id="course-image"
-            type="url"
-            className="w-full p-3 border border-gray-300 rounded-md"
-            placeholder="Enter course image URL"
-            value={imageUri}
-            onChange={(e) => setImageUri(e.target.value)}
-          />
-        </div>
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full py-3 mt-4 bg-blue-500 text-white rounded-md disabled:bg-blue-300"
-          disabled={
-            !title ||
-            !description ||
-            !syllabus ||
-            !price ||
-            !duration ||
-            !category ||
-            !imageUri
-          }>
-          Submit
-        </button>
-      </form>
     </div>
   );
 }

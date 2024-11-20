@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   /* config options here */
 
   images: {
-    domains: ["https://www.nipstec.com"], // Replace 'example.com' with your image domain
+    domains: ["www.nipstec.com"], // Replace 'example.com' with your image domain
     remotePatterns: [
       {
         protocol: "https",
