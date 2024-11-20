@@ -1,6 +1,7 @@
 /** @format */
-import React, {useState} from "react";
-export default async function Page() {
+"use client";
+import React, {useEffect, useState} from "react";
+export default function Page() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [duration, setDuration] = useState(0);
@@ -22,8 +23,8 @@ export default async function Page() {
     imageUri,
   };
   const url = `https://spring-boot-dev-app-nipstec-h4gpf9e4fjfebta4.australiacentral-01.azurewebsites.net/proxy/api/course/product`;
-
-  function addProduct(url: string) {
+  useEffect(() => {});
+  async function addProduct(url: string) {
     fetch(url, {
       method: "POST",
       headers: {
