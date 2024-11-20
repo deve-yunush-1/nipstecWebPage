@@ -22,11 +22,12 @@ export default function Page() {
     syllabus,
     imageUri,
   };
-  const url = `https://spring-boot-dev-app-nipstec-h4gpf9e4fjfebta4.australiacentral-01.azurewebsites.net/proxy/api/course/product`;
+  const url = `https://spring-boot-dev-app-nipstec-h4gpf9e4fjfebta4.australiacentral-01.azurewebsites.net/api/course/product`;
   useEffect(() => {});
   async function addProduct(url: string) {
     fetch(url, {
       method: "POST",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -150,10 +151,9 @@ export default function Page() {
             value={category}
             onChange={(e) => setCategory(e.target.value)}>
             <option value="">Select Category</option>
-            <option value="programming">Programming</option>
-            <option value="design">Design</option>
-            <option value="marketing">Marketing</option>
-            <option value="business">Business</option>
+            <option value="COMPUTER">Computer</option>
+            <option value="ENGLISH">English</option>
+            <option value="OTHERS">Others</option>
           </select>
         </div>
 
