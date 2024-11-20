@@ -10,8 +10,6 @@ export default function Page() {
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [syllabus, setSyllabus] = useState("");
-  // const [error, setError] = React.useState('');
-  // console.log({title,description, duration, imageUri, price, category,syllabus})
 
   const courseDetails = {
     title,
@@ -42,6 +40,7 @@ export default function Page() {
         }
         console.log("Response " + response.json());
         location.reload();
+
         return response.json();
       })
       .then((data) => {
