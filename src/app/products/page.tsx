@@ -3,6 +3,7 @@
 import React, {useState} from "react";
 import Link from "next/link";
 import Image from "next/image";
+import SideNav from "../sidenav";
 
 // This function will run on the server side before the page is rendered.
 
@@ -18,6 +19,7 @@ export default async function Page() {
   const data = await res.json();
   return (
     <div>
+      <SideNav />
       <div className="flex ml-10 mt-3 mr-10 h-[50px]">
         <Link href={"/add-product"}>
           <button className="bg-gray-100 h-[50px] w-[200px] text-blue-500 hover:bg-blue-400 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4">

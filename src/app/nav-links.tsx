@@ -1,32 +1,33 @@
-'use client';
+/** @format */
+
+"use client";
 import {
   UserGroupIcon,
   HomeIcon,
   DocumentDuplicateIcon,
-} from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import clsx from 'clsx';
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
+import {usePathname} from "next/navigation";
+import clsx from "clsx";
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-
   {
-    name: 'Home',
-    href: '/dashboard',
+    name: "Home",
+    href: "/dashboard",
     icon: HomeIcon,
   },
   {
-    name: 'Course',
-    href: '/dashboard/products',
+    name: "Course",
+    href: "/dashboard/products",
     icon: DocumentDuplicateIcon,
   },
-  { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
+  {name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon},
 ];
 
 export default function NavLinks() {
-	const pathname = usePathname();
+  const pathname = usePathname();
   return (
     <>
       {links.map((link) => {
@@ -36,12 +37,11 @@ export default function NavLinks() {
             key={link.name}
             href={link.href}
             className={clsx(
-              'flex w-[150px] h-[48px] grow items-center justify-center gap-3 rounded-md text-blue-500  p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3',
+              "flex w-[150px] h-[48px] grow items-center justify-center gap-3 rounded-md text-blue-500  p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3",
               {
-                'bg-sky-10 text-blue-600': pathname === link.href,
-              },
-            )}
-          >
+                "bg-sky-10 text-blue-600": pathname === link.href,
+              }
+            )}>
             <LinkIcon className="w-6" />
             <p className="hidden md:block">{link.name}</p>
           </Link>
