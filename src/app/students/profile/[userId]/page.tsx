@@ -2,11 +2,16 @@
 
 import SideNav from "@/app/sidenav";
 import {User} from "@/modal/User";
-import React, {use} from "react";
+import React from "react";
 
 // This is the main page component that is SSR
-export default async function Page({params}: {params: {userId: string}}) {
-  const {userId} = await params;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{userId: string}>;
+}) {
+  // Wait for params to resolve
+  const {userId} = await params; // Await params before accessing userId
 
   // Fetch user data from your backend API
   const res = await fetch(
@@ -120,8 +125,9 @@ export default async function Page({params}: {params: {userId: string}}) {
                             {capitalizeFirstLetter(field)}:
                           </span>
                           {/* <span>
-                            {user.address !== null
-                              ? user.address[addressType]?.[field]
+                            {user.address && user.address[addressType]
+                              ? user.address[addressType]?.[field] ||
+                                "Not Available"
                               : "Not Available"}
                           </span> */}
                         </div>
