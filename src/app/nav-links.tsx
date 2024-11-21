@@ -15,15 +15,19 @@ import clsx from "clsx";
 const links = [
   {
     name: "Home",
-    href: "/dashboard",
+    href: "/",
     icon: HomeIcon,
   },
   {
     name: "Course",
-    href: "/dashboard/products",
+    href: "/courses?category=computer",
     icon: DocumentDuplicateIcon,
   },
-  {name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon},
+  {
+    name: "Students",
+    href: "/students?studentStatus=complete",
+    icon: UserGroupIcon,
+  },
 ];
 
 export default function NavLinks() {

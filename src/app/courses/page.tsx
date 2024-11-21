@@ -4,14 +4,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import SideNav from "../sidenav";
 
 // Define Product Type
-interface Product {
-  id: string;
-  title: string;
-  price: number;
-  imageUri: string;
-}
 
 // Fetching products server-side for SSR in App Router
 const fetchProducts = async (category: string): Promise<Product[]> => {
@@ -31,13 +26,16 @@ const fetchProducts = async (category: string): Promise<Product[]> => {
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: {category: string};
+  searchParams: Promise<{category: string}>; // Await searchParams here
 }) {
-  const category = searchParams?.category || "COMPUTER"; // Default category if none provided
-  const products = await fetchProducts(category); // Fetch data server-side
+  // Default category if none provided
+  const params = await searchParams;
+  const category = params.category || "COMPUTER"; // Default category if none provided
+  const products = await fetchProducts(category.toUpperCase()); // Fetch data server-side
 
   return (
     <div className="p-6">
+      <SideNav />
       {/* Action Buttons */}
       <div className="flex flex-wrap justify-between gap-4 mb-4 md:flex-nowrap">
         <Link href="/add-product">
@@ -64,26 +62,26 @@ export default async function ProductsPage({
 
       {/* Tabs */}
       <div className="flex justify-center space-x-4 mb-4">
-        <Link href="/courses?category=ENGLISH">
+        <Link href="/courses?category=english">
           <button
             className={`py-2 px-4 text-2xl text-gray-900 hover:text-blue-600 focus:outline-none ${
-              category === "ENGLISH" ? "text-blue-600" : ""
+              category === "english" ? "text-green-600" : "text-gray-600"
             }`}>
             English
           </button>
         </Link>
-        <Link href="/courses?category=COMPUTER">
+        <Link href="/courses?category=computer">
           <button
             className={`py-2 px-4 text-2xl text-gray-900 hover:text-blue-600 focus:outline-none ${
-              category === "COMPUTER" ? "text-blue-600" : ""
+              category === "computer" ? "text-green-600" : "text-gray-600"
             }`}>
             Computer
           </button>
         </Link>
-        <Link href="/courses?category=OTHERS">
+        <Link href="/courses?category=others">
           <button
             className={`py-2 px-4 text-2xl text-gray-900 hover:text-blue-600 focus:outline-none ${
-              category === "OTHERS" ? "text-blue-600" : ""
+              category === "others" ? "text-green-600" : "text-gray-600"
             }`}>
             Others
           </button>
@@ -93,7 +91,7 @@ export default async function ProductsPage({
       {/* Product Grid */}
       <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6">
         {products.length > 0 ? (
-          products.map((product) => (
+          products.map((product: Product) => (
             <div
               key={product.id}
               className="relative flex flex-col items-center border border-gray-300 p-4 rounded-lg shadow hover:shadow-lg hover:border-blue-500 transition">
@@ -112,9 +110,15 @@ export default async function ProductsPage({
               </p>
 
               {/* Product Price */}
-              <p className="text-lg font-bold text-gray-700">
-                ₹{product.price}
-              </p>
+              <div className="flex justify-between w-full">
+                <p className="text-lg font-bold text-gray-700">
+                  ₹{product.price}
+                </p>
+                <p className="text-lg font-bold text-gray-700">
+                  {"⏱"}
+                  {product.duration}
+                </p>
+              </div>
 
               {/* Enroll Button */}
               <button className="mt-2 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition">
@@ -123,7 +127,7 @@ export default async function ProductsPage({
             </div>
           ))
         ) : (
-          <div>No products available in this category</div>
+          <div className="w-full">No products available in this category</div>
         )}
       </div>
     </div>
