@@ -83,7 +83,6 @@ export default async function Page({
 // Table Component
 function UserTable({users, title}: {users: User[]; title: string}) {
   const filteredUsers = users;
-  console.log("Title ", title);
 
   return (
     <section className="mb-6">

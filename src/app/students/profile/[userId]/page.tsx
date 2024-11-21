@@ -6,7 +6,7 @@ import React, {use} from "react";
 
 // This is the main page component that is SSR
 export default async function Page({params}: {params: {userId: string}}) {
-  const {userId} = params;
+  const {userId} = await params;
 
   // Fetch user data from your backend API
   const res = await fetch(
