@@ -3,63 +3,6 @@
 import React, {useEffect, useState} from "react";
 import SideNav from "../sidenav";
 export default function Page() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [duration, setDuration] = useState(0);
-  const [imageUri, setImageUri] = useState("");
-  const [price, setPrice] = useState(0);
-  const [category, setCategory] = useState("");
-  const [syllabus, setSyllabus] = useState("");
-
-  const courseDetails = {
-    title,
-    description,
-    currency: "INR",
-    price,
-    duration,
-    category,
-    syllabus,
-    imageUri,
-  };
-  const url = `https://spring-boot-dev-app-nipstec-h4gpf9e4fjfebta4.australiacentral-01.azurewebsites.net/api/course/product`;
-  useEffect(() => {});
-  async function addProduct(url: string) {
-    fetch(url, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify(courseDetails),
-    })
-      .then((response) => {
-        console.log(response);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        console.log("Response " + response.json());
-        location.reload();
-
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
-
-  const handleFormSubmit = async (event: {preventDefault: () => void}) => {
-    event.preventDefault();
-    addProduct(url);
-
-    // return router.push('/dashboard/products')
-  };
-
   return (
     <div className="container">
       {" "}
@@ -172,7 +115,6 @@ function Form() {
           <textarea
             id="courseDescription"
             placeholder="Enter course description"
-            rows="4"
             onChange={(e) => setDescription(e.target.value)}
             className="w-full border rounded-lg p-2 focus:outline-blue-500"></textarea>
         </div>
@@ -185,7 +127,6 @@ function Form() {
           <textarea
             id="courseSyllabus"
             placeholder="Enter course syllabus"
-            rows="4"
             onChange={(e) => setSyllabus(e.target.value)}
             className="w-full border rounded-lg p-2 focus:outline-blue-500"></textarea>
         </div>

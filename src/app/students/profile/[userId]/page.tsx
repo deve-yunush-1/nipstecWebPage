@@ -119,11 +119,11 @@ export default async function Page({params}: {params: {userId: string}}) {
                           <span className="font-medium">
                             {capitalizeFirstLetter(field)}:
                           </span>
-                          <span>
+                          {/* <span>
                             {user.address !== null
                               ? user.address[addressType]?.[field]
                               : "Not Available"}
-                          </span>
+                          </span> */}
                         </div>
                       ))}
                     </div>
@@ -137,6 +137,19 @@ export default async function Page({params}: {params: {userId: string}}) {
     </div>
   );
 }
+
+type UserAddress = {
+  currentAddress: Address;
+  permanentAddress: Address;
+};
+export type Address = {
+  street: string;
+  city: string;
+  state: string;
+  country: string;
+  pinCode: string;
+  nationality: string;
+};
 
 // Helper function to capitalize the first letter of each word
 function capitalizeFirstLetter(string: string) {
