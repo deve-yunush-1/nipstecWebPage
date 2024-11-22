@@ -1,8 +1,8 @@
 /** @format */
 
 import {User} from "@/modal/User";
-import React from "react";
-import SideNav from "../sidenav";
+import React, {use} from "react";
+import SideNav from "../Navbar";
 import Link from "next/link";
 
 // Fetch Data on Server Side
@@ -29,12 +29,16 @@ export default async function Page({
   const studentStatus = params.studentStatus || "COMPUTER"; // Default category if none provided
   const users = await fetchStudents(studentStatus.toUpperCase()); // Fetch data server-side
   return (
-    <div className=" min-h-screen">
+    <div className=" ">
       {/* Sidebar */}
-      <SideNav />
+      <header>
+        {" "}
+        <SideNav />
+      </header>
+
       {/* Main Content */}
-      <main className="flex-1 p-6 bg-gray-100">
-        <section className="mb-6">
+      <main className="pt-[150px] flex-1 min-w-screen p-6 bg-gray-100">
+        <section className="mb-6 container mx-auto p-4">
           <div className="flex space-x-4">
             <Link href="/students?studentStatus=complete">
               <button
@@ -63,17 +67,6 @@ export default async function Page({
             </Link>
           </div>
         </section>
-
-        {/* <UserTable
-          users={users}
-          status="COMPLETE"
-          title="Registered Students"
-        />
-        <UserTable
-          users={users}
-          status="INCOMPLETE"
-          title="Submitted Students"
-        /> */}
         <UserTable users={users} title={studentStatus} />
       </main>
     </div>
@@ -109,7 +102,15 @@ function UserTable({users, title}: {users: User[]; title: string}) {
               <th className="px-4 py-2">Email</th>
               <th className="px-4 py-2">Mobile</th>
               <th className="px-4 py-2">Registration Number</th>
-              <th className="px-4 py-2">Registration Date</th>
+              <th className="px-4 py-2">
+                {title === "enquiry"
+                  ? "Registration Date"
+                  : title === "incomplete"
+                  ? "Updation Date"
+                  : title === "complete"
+                  ? "Approved Date"
+                  : ""}
+              </th>
               <th className="px-4 py-2">Status</th>
               <th className="px-4 py-2">Actions</th>
             </tr>
@@ -121,7 +122,17 @@ function UserTable({users, title}: {users: User[]; title: string}) {
                 <td className="px-4 py-2">{user.email}</td>
                 <td className="px-4 py-2">{user.phone}</td>
                 <td className="px-4 py-2">{user.registrationNumber}</td>
-                <td className="px-4 py-2">{formatDate(user.createdAt)}</td>
+                <td className="px-4 py-2">
+                  {formatDate(
+                    title === "complete"
+                      ? user.approvedAt
+                      : title === "incomplete"
+                      ? user.updatedAt
+                      : title === "enquiry"
+                      ? user.createdAt
+                      : ""
+                  )}
+                </td>
                 <td className={`px-4 py-2 ${getStatusClass(user.status)}`}>
                   {getStatusText(user.status)}
                 </td>

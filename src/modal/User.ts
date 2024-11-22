@@ -15,6 +15,8 @@ export type User = {
   identification: Identity;
   address: UserAddress;
   createdAt: string;
+  approvedAt: string;
+  updatedAt: string;
 };
 type Identity = {
   number: string;

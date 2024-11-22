@@ -10,10 +10,10 @@ export default function NipstecLogo() {
       {/*<p className="text-[44px]">Nipstec</p>>*/}
       <Image
         src="https://www.nipstec.com/nipstec-logo.webp"
-        alt="NIPSTec."
-        className="w-[200px] h-[70px]"
+        alt="nipstec"
+        className="w-full"
         width={100}
-        height={100}
+        height={1}
       />
     </div>
   );

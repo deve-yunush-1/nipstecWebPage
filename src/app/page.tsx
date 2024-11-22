@@ -1,100 +1,165 @@
 /** @format */
 
-import Image from "next/image";
-import SideNav from "./sidenav";
+"use client";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <SideNav />
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+import React from "react";
+import Link from "next/link";
+import Navbar from "./Navbar";
+
+// Mock data for labels and carousel images
+const LabelList = [
+  {
+    title: "Students",
+    link: "/students",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="currentColor"
+        className="w-12 h-12 mx-auto text-blue-600">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25V9M9 16.5l-2.25-2.25m0 0L9 12m-2.25 2.25H6.75A1.5 1.5 0 005.25 15v1.5M18 16.5l2.25-2.25m0 0L18 12m2.25 2.25H17.25A1.5 1.5 0 0015.75 15v1.5"
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+      </svg>
+    ),
+  },
+  {
+    title: "Courses",
+    link: "/courses?category=computer",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="currentColor"
+        className="w-12 h-12 mx-auto text-green-600">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 8.25c1.242 0 2.25-1.008 2.25-2.25S13.242 3.75 12 3.75 9.75 4.758 9.75 6 10.758 8.25 12 8.25z"
+        />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M9.75 6H3.75v14.25h16.5V6h-6m-3 0v4.5m-3 0v4.5m6-4.5v4.5"
+        />
+      </svg>
+    ),
+  },
+  {
+    title: "Dashboard",
+    link: "/",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="currentColor"
+        className="w-12 h-12 mx-auto text-purple-600">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M19.5 6h-15a.75.75 0 00-.75.75v13.5c0 .414.336.75.75.75h15a.75.75 0 00.75-.75V6.75A.75.75 0 0019.5 6zM4.5 4.5V6m15-1.5V6M6.75 10.5h10.5"
+        />
+      </svg>
+    ),
+  },
+  {
+    title: "Add Product",
+    link: "/add-product",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="currentColor"
+        className="w-12 h-12 mx-auto text-red-600">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 4.5v15m7.5-7.5h-15"
+        />
+      </svg>
+    ),
+  },
+];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer">
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer">
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer">
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+const imageList = [
+  "https://nipstec.com/assets/images/fwdsoftskillstop/SS%20(3).JPG",
+  "https://nipstec.com/assets/images/fwdsoftskillstop/SS%20(1).png",
+  "https://nipstec.com/assets/images/fwdsoftskillstop/SS%20(4).png",
+];
+
+// Carousel component
+function Carousel({images}: {images: string[]}) {
+  return (
+    <div className="relative w-full h-64 overflow-hidden">
+      <div className="flex transition-transform duration-500 ease-in-out">
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`Slide ${index + 1}`}
+            className="w-full h-full object-cover"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer">
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer">
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        ))}
+      </div>
     </div>
+  );
+}
+
+// Card component
+function DashboardCard({
+  title,
+  icon,
+  link,
+}: {
+  title: string;
+  icon: React.ReactNode;
+  link: string;
+}) {
+  return (
+    <Link href={link}>
+      <div className="flex flex-col justify-center items-center w-full h-48 bg-white shadow-lg rounded-lg p-4 hover:shadow-2xl hover:scale-105 transition-transform duration-200">
+        {icon}
+        <h3 className="mt-4 text-lg font-semibold text-gray-700">{title}</h3>
+      </div>
+    </Link>
+  );
+}
+
+export default function Page() {
+  return (
+    <>
+      <header className="">
+        <Navbar />
+        <div className="p-4 w-64 h-full fixed bg-gray-800 text-white">
+          <h2 className="text-2xl font-bold">Dashboard</h2>
+          {/* Add your SideNav content here */}
+        </div>
+      </header>
+      <main className="ml-64 p-6 bg-gray-100 min-h-screen">
+        <section className="mb-6">
+          <Carousel images={imageList} />
+        </section>
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {LabelList.map((label, index) => (
+            <DashboardCard
+              key={index}
+              title={label.title}
+              icon={label.icon}
+              link={label.link}
+            />
+          ))}
+        </section>
+      </main>
+    </>
   );
 }

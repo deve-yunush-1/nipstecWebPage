@@ -1,6 +1,6 @@
 /** @format */
 
-import SideNav from "@/app/sidenav";
+import SideNav from "@/app/Navbar";
 import {User} from "@/modal/User";
 import React from "react";
 

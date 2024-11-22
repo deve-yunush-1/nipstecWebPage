@@ -1,7 +1,7 @@
 /** @format */
 "use client";
 import React, {useEffect, useState} from "react";
-import SideNav from "../sidenav";
+import SideNav from "../Navbar";
 export default function Page() {
   return (
     <div className="container">
