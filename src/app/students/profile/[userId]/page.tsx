@@ -15,9 +15,10 @@ export default async function Page({
 
   // Fetch user data from your backend API
   const res = await fetch(
-    `https://spring-boot-dev-app-nipstec-h4gpf9e4fjfebta4.australiacentral-01.azurewebsites.net/api/user/id/?userId=${userId}`
+    `${process.env.NEXT_PUBLIC_DATABASE_URL}user/id/?userId=${userId}`
   );
   const user: User = await res.json();
+  console.log(user);
 
   // Function to get the status class based on user status
   const getStatusClass = (status: string) => {
@@ -43,7 +44,7 @@ export default async function Page({
     <div className="flex-col h-screen bg-gray-50">
       {/* Sidebar Placeholder (If applicable) */}
       <SideNav />
-      <main className="flex-1 p-6 overflow-auto">
+      <main className="flex-1 p-6 pt-[150px] overflow-auto">
         {/* Profile Card */}
         <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg">
           <div className="border-b p-4">

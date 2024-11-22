@@ -7,7 +7,7 @@ export default function Page() {
     <div className="container">
       {" "}
       <SideNav />
-      <div className="w-full max-h-lg mx-auto mt-10 p-5 bg-white shadow-lg rounded-lg">
+      <div className="w-full pt-[50px] max-h-lg mx-auto mt-10 p-5 bg-white shadow-lg rounded-lg">
         <Form />
       </div>
     </div>

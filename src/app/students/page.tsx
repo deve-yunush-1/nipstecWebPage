@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const fetchStudents = async (status: string): Promise<User[]> => {
   const response = await fetch(
-    `https://spring-boot-dev-app-nipstec-h4gpf9e4fjfebta4.australiacentral-01.azurewebsites.net/api/user/status?s=${status}`,
+    `${process.env.NEXT_PUBLIC_DATABASE_URL}user/status?s=${status}`,
     {
       next: {revalidate: 10}, // Optional: revalidate data on the server after 10 seconds
     }
@@ -37,7 +37,7 @@ export default async function Page({
       </header>
 
       {/* Main Content */}
-      <main className="pt-[150px] flex-1 min-w-screen p-6 bg-gray-100">
+      <main className="pt-[150px] flex-1 min-w-screen bg-gray-100">
         <section className="mb-6 container mx-auto p-4">
           <div className="flex space-x-4">
             <Link href="/students?studentStatus=complete">
