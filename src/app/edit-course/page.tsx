@@ -10,11 +10,6 @@ export default function Page({
 }: {
   searchParams: Promise<{courseId: string}>;
 }) {
-  // Remove async from the component and handle async logic inside useEffect
-  const [courseId, setCourseId] = useState<string | null>(null); // State to store courseId
-  const [courses, setCourses] = useState<any[]>([]); // State to store all courses
-  const [err, setErr] = useState("");
-
   useEffect(() => {
     const fetchCourseId = async () => {
       const {courseId} = await searchParams;
@@ -25,6 +20,10 @@ export default function Page({
 
     fetchCourseId(); // Run the function to set the courseId
   }, [searchParams]); // Dependency array to only run once on component mount
+  // Remove async from the component and handle async logic inside useEffect
+  const [courseId, setCourseId] = useState<string | null>(null); // State to store courseId
+  const [courses, setCourses] = useState<any[]>([]); // State to store all courses
+  const [err, setErr] = useState("");
 
   const handleAddCourse = async (courseData: any) => {
     setCourses((prevCourses) => [...prevCourses, courseData]);

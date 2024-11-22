@@ -23,7 +23,7 @@ export default function ActionButtons({
 
       {/* Edit Product Button */}
       {selectedProductIds.length === 1 && (
-        <Link href={`/edit-product?courseId=${selectedProductIds[0]}`}>
+        <Link href={`/edit-course?courseId=${selectedProductIds[0]}`}>
           <button className="bg-yellow-500 text-white py-2 px-6 rounded-lg hover:bg-yellow-600 w-full md:w-auto">
             Edit Product
           </button>
