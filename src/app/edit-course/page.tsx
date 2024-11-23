@@ -9,19 +9,13 @@ import ProductForm from "@/components/component/ProductForm";
 
 const EditCoursePage = () => {
   const searchParams = useSearchParams();
+  const courseId = searchParams?.get("courseId"); // Access directly without state
 
   const [courses, setCourses] = useState<any[]>([]);
   const [err, setErr] = useState("");
-  const [courseId, setCourseId] = useState("");
-
-  const course_Id = searchParams?.get("courseId");
   useEffect(() => {
-    async function fetchCourseID() {
-      setCourseId(course_Id!);
-      console.log("Course ID:", courseId);
-    }
-    fetchCourseID();
-  }, [courseId]);
+    console.log("Course ID: ", courseId);
+  });
 
   const handleAddCourse = async (courseData: any) => {
     setCourses((prevCourses) => [...prevCourses, courseData]);
@@ -51,6 +45,10 @@ const EditCoursePage = () => {
       });
     console.log("Course added:", courseData);
   };
+
+  if (!courseId) {
+    return <div>Loading course information...</div>; // Fallback if courseId is missing
+  }
 
   return (
     <div className="container">
