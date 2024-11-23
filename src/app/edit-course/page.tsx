@@ -14,6 +14,7 @@ export default function Page({
     const fetchCourseId = async () => {
       const {courseId} = await searchParams;
       // Assuming `searchParams` is an object passed in the component
+      console.log("Course", courseId);
       setCourseId(courseId!);
       console.log("Course", courseId);
     };
