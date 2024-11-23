@@ -32,6 +32,9 @@ function Form() {
     syllabus,
     imageUri,
   };
+  const apiUrl = process.env.NEXT_PUBLIC_DATABASE_URL;
+  console.log("Variable db url: ", apiUrl);
+  console.log("Data base url: ", process.env.NEXT_PUBLIC_DATABASE_URL);
   const url = `https://spring-boot-dev-app-nipstec-h4gpf9e4fjfebta4.australiacentral-01.azurewebsites.net/api/course/product`;
   useEffect(() => {});
   async function addProduct(url: string) {

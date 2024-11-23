@@ -14,7 +14,10 @@ const EditCoursePage = () => {
   const [courses, setCourses] = useState<any[]>([]);
   const [err, setErr] = useState("");
   useEffect(() => {
-    console.log("Data base URL: ", `${process.env.NEXT_PUBLIC_DATABASE_URL}`);
+    const apiUrl = process.env.NEXT_PUBLIC_DATABASE_URL;
+    console.log("Variable db url: ", apiUrl);
+    console.log("Data base url: ", process.env.NEXT_PUBLIC_DATABASE_URL);
+
     console.log("Course ID: ", courseId);
   });
 
