@@ -8,13 +8,13 @@ import ProductForm from "@/components/component/ProductForm"; // Import the Prod
 export default function Page({
   searchParams,
 }: {
-  searchParams: Promise<{courseId: string}>;
+  searchParams: Promise<{courseId?: string}>;
 }) {
   useEffect(() => {
     const fetchCourseId = async () => {
       const {courseId} = await searchParams;
       // Assuming `searchParams` is an object passed in the component
-      setCourseId(courseId);
+      setCourseId(courseId!);
       console.log("Course", courseId);
     };
 

@@ -14,6 +14,7 @@ const fetchStudents = async (status: string): Promise<User[]> => {
       next: {revalidate: 10}, // Optional: revalidate data on the server after 10 seconds
     }
   );
+
   if (!response.ok) {
     throw new Error("Failed to fetch products");
   }
