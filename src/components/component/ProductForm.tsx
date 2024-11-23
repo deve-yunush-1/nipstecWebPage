@@ -4,7 +4,7 @@
 import React, {useEffect, useState} from "react";
 
 interface ProductFormProps {
-  productId?: string; // Optional, will be provided if we are editing an existing product
+ productId?: string | null;  // Optional, will be provided if we are editing an existing product
   onSubmit: (product: any) => void; // Function to handle form submission
 }
 
