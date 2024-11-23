@@ -22,7 +22,7 @@ const EditCoursePage = () => {
   const handleAddCourse = async (courseData: any) => {
     setCourses((prevCourses) => [...prevCourses, courseData]);
 
-    await fetch(`${DB_URL()}course/edit?productId=${courseId}`, {
+    await fetch(`${DB_URL()}/course/edit?productId=${courseId}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -40,6 +40,7 @@ const EditCoursePage = () => {
         setErr(message);
       })
       .catch((err) => {
+        if (err) setErr(err);
         console.error(err);
       });
     console.log("Course added:", courseData);
