@@ -1,6 +1,7 @@
 /** @format */
 
 import SideNav from "@/app/Navbar";
+import {DB_URL} from "@/modal/db_url";
 import {User} from "@/modal/User";
 import React from "react";
 
@@ -14,9 +15,7 @@ export default async function Page({
   const {userId} = await params; // Await params before accessing userId
 
   // Fetch user data from your backend API
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_DATABASE_URL}user/id/?userId=${userId}`
-  );
+  const res = await fetch(`${DB_URL()}/user/id/?userId=${userId}`);
   const user: User = await res.json();
   console.log(user);
 

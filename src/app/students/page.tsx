@@ -4,16 +4,14 @@ import {User} from "@/modal/User";
 import React, {use} from "react";
 import SideNav from "../Navbar";
 import Link from "next/link";
+import {DB_URL} from "@/modal/db_url";
 
 // Fetch Data on Server Side
 
 const fetchStudents = async (status: string): Promise<User[]> => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_DATABASE_URL}user/status?s=${status}`,
-    {
-      next: {revalidate: 10}, // Optional: revalidate data on the server after 10 seconds
-    }
-  );
+  const response = await fetch(`${DB_URL()}/user/status?s=${status}`, {
+    next: {revalidate: 10}, // Optional: revalidate data on the server after 10 seconds
+  });
 
   if (!response.ok) {
     throw new Error("Failed to fetch products");

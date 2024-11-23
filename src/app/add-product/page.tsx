@@ -2,6 +2,7 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import SideNav from "../Navbar";
+import {DB_URL} from "@/modal/db_url";
 export default function Page() {
   return (
     <div className="container">
@@ -36,7 +37,7 @@ function Form() {
     imageUri,
   };
   useEffect(() => {
-    setApiUrl(process.env.NEXT_PUBLIC_DATABASE_URL as string);
+    setApiUrl(DB_URL());
   });
   async function addProduct(apiUrl: string) {
     fetch(apiUrl, {

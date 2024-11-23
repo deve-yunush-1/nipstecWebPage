@@ -4,6 +4,7 @@
 import React, {useEffect, useState} from "react";
 import SideNav from "../Navbar"; // Assuming this is your sidebar component
 import ProductForm from "@/components/component/ProductForm"; // Import the ProductForm component
+import {DB_URL} from "@/modal/db_url";
 
 export default function Page({
   searchParams,
@@ -14,11 +15,8 @@ export default function Page({
   const [courseId, setCourseId] = useState<string | null>(null); // State to store courseId
   const [courses, setCourses] = useState<any[]>([]); // State to store all courses
   const [err, setErr] = useState("");
-  const [apiUrl, setApiUrl] = useState(
-    "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net/api/"
-  );
+
   useEffect(() => {
-    setApiUrl(process.env.NEXT_PUBLIC_DATABASE_URL as string);
     const fetchCourseId = async () => {
       const {courseId} = await searchParams;
       // Assuming `searchParams` is an object passed in the component
@@ -32,7 +30,7 @@ export default function Page({
   const handleAddCourse = async (courseData: any) => {
     setCourses((prevCourses) => [...prevCourses, courseData]);
 
-    await fetch(`${apiUrl}/course/update?productId=${courseId}`, {
+    await fetch(`${DB_URL()}/course/update?productId=${courseId}`, {
       headers: {
         "Content-Type": "application/json",
       },

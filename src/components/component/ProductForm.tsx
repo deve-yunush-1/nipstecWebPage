@@ -1,6 +1,7 @@
 /** @format */
 
 "use client";
+import {DB_URL} from "@/modal/db_url";
 import React, {useEffect, useState, Suspense} from "react";
 
 interface ProductFormProps {
@@ -17,12 +18,8 @@ export default function ProductForm({productId, onSubmit}: ProductFormProps) {
   const [category, setCategory] = useState("");
   const [syllabus, setSyllabus] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [apiUrl, setApiUrl] = useState(
-    "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net/api/"
-  );
 
   useEffect(() => {
-    setApiUrl(process.env.NEXT_PUBLIC_DATABASE_URL as string);
     if (productId !== null && productId) {
       // Fetch the product data if productId is provided (edit mode)
       fetchProductDetails();
@@ -32,7 +29,7 @@ export default function ProductForm({productId, onSubmit}: ProductFormProps) {
   const fetchProductDetails = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_DATABASE_URL}/course/id?courseId=${productId}`
+        `${DB_URL()}/course/id?courseId=${productId}`
       );
       const data = await response.json();
       setIsLoading(false);

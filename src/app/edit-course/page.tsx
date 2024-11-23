@@ -6,6 +6,7 @@ import React, {Suspense, useState, useEffect} from "react";
 import {useSearchParams} from "next/navigation";
 import SideNav from "../Navbar";
 import ProductForm from "@/components/component/ProductForm";
+import {DB_URL} from "@/modal/db_url";
 
 const EditCoursePage = () => {
   const searchParams = useSearchParams();
@@ -13,27 +14,21 @@ const EditCoursePage = () => {
 
   const [courses, setCourses] = useState<any[]>([]);
   const [err, setErr] = useState("");
-  const [apiUrl, setApiUrl] = useState(
-    "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net/api/"
-  );
 
   useEffect(() => {
-    setApiUrl(process.env.NEXT_PUBLIC_DATABASE_URL as string);
+    console.log("Data base url: ", DB_URL());
   });
 
   const handleAddCourse = async (courseData: any) => {
     setCourses((prevCourses) => [...prevCourses, courseData]);
 
-    await fetch(
-      `${process.env.NEXT_PUBLIC_DATABASE_URL}/course/edit?productId=${courseId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "PUT",
-        body: JSON.stringify(courseData),
-      }
-    )
+    await fetch(`${DB_URL()}course/edit?productId=${courseId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PUT",
+      body: JSON.stringify(courseData),
+    })
       .then(async (res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch data");
