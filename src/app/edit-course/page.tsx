@@ -4,25 +4,14 @@
 import React, {useEffect, useState} from "react";
 import SideNav from "../Navbar"; // Assuming this is your sidebar component
 import ProductForm from "@/components/component/ProductForm"; // Import the ProductForm component
-
-export default function Page({
-  searchParams,
-}: {
-  searchParams: {courseId?: string};
-}) {
+import {useSearchParams} from "next/navigation";
+export default function Page() {
+  const searchParams = useSearchParams();
   useEffect(() => {
-    // const fetchCourseId = async () => {
-    //   const {courseId} = await searchParams;
-    //   // Assuming `searchParams` is an object passed in the component
-    //   console.log("Course", courseId);
-    //   setCourseId(courseId!);
-    // };
-    let courseId = searchParams.courseId;
-    if (courseId) {
-      setCourseId(courseId);
-      console.log("Course ID:", courseId);
-    }
-    // fetchCourseId(); // Run the function to set the courseId
+    // You can use the searchParams here to get the courseId from the URL
+    const courseId = searchParams?.get("courseId");
+    console.log("Course", courseId);
+    setCourseId(courseId!);
   }, [searchParams]); // Dependency array to only run once on component mount
   // Remove async from the component and handle async logic inside useEffect
   const [courseId, setCourseId] = useState<string | null>(null); // State to store courseId
