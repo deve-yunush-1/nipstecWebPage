@@ -4,7 +4,7 @@
 import React, {useEffect, useState} from "react";
 
 interface ProductFormProps {
-  productId?: string | null; // Optional, will be provided if we are editing an existing product
+  productId?: string; // Optional, will be provided if we are editing an existing product
   onSubmit: (product: any) => void; // Function to handle form submission
 }
 
@@ -16,9 +16,10 @@ export default function ProductForm({productId, onSubmit}: ProductFormProps) {
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [syllabus, setSyllabus] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (productId) {
+    if (productId !== null && productId) {
       // Fetch the product data if productId is provided (edit mode)
       fetchProductDetails();
     }
@@ -30,7 +31,7 @@ export default function ProductForm({productId, onSubmit}: ProductFormProps) {
         `${process.env.NEXT_PUBLIC_DATABASE_URL}/course/id?courseId=${productId}`
       );
       const data = await response.json();
-
+      setIsLoading(false);
       // Populate the form fields with the fetched product details
       setTitle(data.title);
       setDescription(data.description);
@@ -176,7 +177,11 @@ export default function ProductForm({productId, onSubmit}: ProductFormProps) {
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600">
-          {productId ? "Update Product" : "Add Product"}
+          {isLoading
+            ? "Loading..."
+            : productId !== null
+            ? "Update Product"
+            : "Add Product"}
         </button>
       </div>
     </form>
