@@ -8,18 +8,21 @@ import ProductForm from "@/components/component/ProductForm"; // Import the Prod
 export default function Page({
   searchParams,
 }: {
-  searchParams: Promise<{courseId?: string}>;
+  searchParams: {courseId?: string};
 }) {
   useEffect(() => {
-    const fetchCourseId = async () => {
-      const {courseId} = await searchParams;
-      // Assuming `searchParams` is an object passed in the component
-      console.log("Course", courseId);
-      setCourseId(courseId!);
-      console.log("Course", courseId);
-    };
-
-    fetchCourseId(); // Run the function to set the courseId
+    // const fetchCourseId = async () => {
+    //   const {courseId} = await searchParams;
+    //   // Assuming `searchParams` is an object passed in the component
+    //   console.log("Course", courseId);
+    //   setCourseId(courseId!);
+    // };
+    let courseId = searchParams.courseId;
+    if (courseId) {
+      setCourseId(courseId);
+      console.log("Course ID:", courseId);
+    }
+    // fetchCourseId(); // Run the function to set the courseId
   }, [searchParams]); // Dependency array to only run once on component mount
   // Remove async from the component and handle async logic inside useEffect
   const [courseId, setCourseId] = useState<string | null>(null); // State to store courseId
