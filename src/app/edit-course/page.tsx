@@ -9,13 +9,18 @@ import ProductForm from "@/components/component/ProductForm";
 
 const EditCoursePage = () => {
   const searchParams = useSearchParams();
-  const courseId = searchParams?.get("courseId");
 
   const [courses, setCourses] = useState<any[]>([]);
   const [err, setErr] = useState("");
+  const [courseId, setCourseId] = useState("");
 
+  const course_Id = searchParams?.get("courseId");
   useEffect(() => {
-    console.log("Course ID:", courseId);
+    async function fetchCourseID() {
+      setCourseId(course_Id!);
+      console.log("Course ID:", courseId);
+    }
+    fetchCourseID();
   }, [courseId]);
 
   const handleAddCourse = async (courseData: any) => {
