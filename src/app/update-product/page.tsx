@@ -1,36 +1,28 @@
 /** @format */
 
 "use client";
-import React, {useEffect, useState} from "react";
-import SideNav from "../Navbar"; // Assuming this is your sidebar component
-import ProductForm from "@/components/component/ProductForm"; // Import the ProductForm component
+
+import React, {Suspense, useState, useEffect} from "react";
+import {useSearchParams} from "next/navigation";
+import SideNav from "../Navbar";
+import ProductForm from "@/components/component/ProductForm";
 import {DB_URL} from "@/modal/db_url";
 
-export default function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{courseId: string}>;
-}) {
-  // Remove async from the component and handle async logic inside useEffect
-  const [courseId, setCourseId] = useState<string | null>(null); // State to store courseId
-  const [courses, setCourses] = useState<any[]>([]); // State to store all courses
+const EditCoursePage = () => {
+  const searchParams = useSearchParams();
+  const courseId = searchParams?.get("courseId"); // Access directly without state
+
+  const [courses, setCourses] = useState<any[]>([]);
   const [err, setErr] = useState("");
 
   useEffect(() => {
-    const fetchCourseId = async () => {
-      const {courseId} = await searchParams;
-      // Assuming `searchParams` is an object passed in the component
-      setCourseId(courseId);
-      console.log("Course", courseId);
-    };
-
-    fetchCourseId(); // Run the function to set the courseId
-  }, [searchParams]); // Dependency array to only run once on component mount
+    console.log("Data base url: ", DB_URL());
+  });
 
   const handleAddCourse = async (courseData: any) => {
     setCourses((prevCourses) => [...prevCourses, courseData]);
 
-    await fetch(`${DB_URL()}/course/update?productId=${courseId}`, {
+    await fetch(`${DB_URL()}course/update?productId=${courseId}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -41,12 +33,11 @@ export default function Page({
         if (!res.ok) {
           throw new Error("Failed to fetch data");
         }
-        let {message, object, status} = await res.json();
+        const {message} = await res.json();
         if (message === "success") {
           location.href = "/courses?category=computer";
         }
         setErr(message);
-        return res.json();
       })
       .catch((err) => {
         console.error(err);
@@ -54,15 +45,17 @@ export default function Page({
     console.log("Course added:", courseData);
   };
 
+  if (!courseId) {
+    return <div>Loading course information...</div>; // Fallback if courseId is missing
+  }
+
   return (
     <div className="container">
       <SideNav />
       <div className="w-full max-h-lg mx-auto mt-10 pt-[150px] bg-white shadow-lg rounded-lg">
-        {/* Passing handleAddCourse as a prop to ProductForm */}
         <ProductForm onSubmit={handleAddCourse} productId={courseId} />
       </div>
 
-      {/* Display all added courses */}
       <div className="mt-10">
         <h2 className="text-xl font-bold mb-4">All Courses</h2>
         <ul>
@@ -75,5 +68,13 @@ export default function Page({
         </ul>
       </div>
     </div>
+  );
+};
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EditCoursePage />
+    </Suspense>
   );
 }
