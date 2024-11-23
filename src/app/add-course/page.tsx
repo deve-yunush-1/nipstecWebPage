@@ -24,7 +24,7 @@ function Form() {
   const [category, setCategory] = useState("");
   const [syllabus, setSyllabus] = useState("");
   const [apiUrl, setApiUrl] = useState(
-    "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net/api/"
+    "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net/api"
   );
   const courseDetails = {
     title,
@@ -40,7 +40,7 @@ function Form() {
     setApiUrl(DB_URL());
   });
   async function addProduct(apiUrl: string) {
-    fetch(apiUrl, {
+    fetch(apiUrl + "/course/product", {
       method: "POST",
       mode: "cors",
       headers: {
