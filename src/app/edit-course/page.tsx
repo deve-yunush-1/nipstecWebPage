@@ -13,12 +13,12 @@ const EditCoursePage = () => {
 
   const [courses, setCourses] = useState<any[]>([]);
   const [err, setErr] = useState("");
-  useEffect(() => {
-    const apiUrl = process.env.NEXT_PUBLIC_DATABASE_URL;
-    console.log("Variable db url: ", apiUrl);
-    console.log("Data base url: ", process.env.NEXT_PUBLIC_DATABASE_URL);
+  const [apiUrl, setApiUrl] = useState(
+    "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net/api/"
+  );
 
-    console.log("Course ID: ", courseId);
+  useEffect(() => {
+    setApiUrl(process.env.NEXT_PUBLIC_DATABASE_URL as string);
   });
 
   const handleAddCourse = async (courseData: any) => {

@@ -14,8 +14,11 @@ export default function Page({
   const [courseId, setCourseId] = useState<string | null>(null); // State to store courseId
   const [courses, setCourses] = useState<any[]>([]); // State to store all courses
   const [err, setErr] = useState("");
-
+  const [apiUrl, setApiUrl] = useState(
+    "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net/api/"
+  );
   useEffect(() => {
+    setApiUrl(process.env.NEXT_PUBLIC_DATABASE_URL as string);
     const fetchCourseId = async () => {
       const {courseId} = await searchParams;
       // Assuming `searchParams` is an object passed in the component
@@ -29,16 +32,13 @@ export default function Page({
   const handleAddCourse = async (courseData: any) => {
     setCourses((prevCourses) => [...prevCourses, courseData]);
 
-    await fetch(
-      `${process.env.NEXT_PUBLIC_DATABASE_URL}/course/update?productId=${courseId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "PUT",
-        body: JSON.stringify(courseData),
-      }
-    )
+    await fetch(`${apiUrl}/course/update?productId=${courseId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PUT",
+      body: JSON.stringify(courseData),
+    })
       .then(async (res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch data");

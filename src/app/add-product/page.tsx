@@ -22,6 +22,9 @@ function Form() {
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [syllabus, setSyllabus] = useState("");
+  const [apiUrl, setApiUrl] = useState(
+    "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net/api/"
+  );
   const courseDetails = {
     title,
     description,
@@ -32,13 +35,11 @@ function Form() {
     syllabus,
     imageUri,
   };
-  const apiUrl = process.env.NEXT_PUBLIC_DATABASE_URL;
-  console.log("Variable db url: ", apiUrl);
-  console.log("Data base url: ", process.env.NEXT_PUBLIC_DATABASE_URL);
-  const url = `https://spring-boot-dev-app-nipstec-h4gpf9e4fjfebta4.australiacentral-01.azurewebsites.net/api/course/product`;
-  useEffect(() => {});
-  async function addProduct(url: string) {
-    fetch(url, {
+  useEffect(() => {
+    setApiUrl(process.env.NEXT_PUBLIC_DATABASE_URL as string);
+  });
+  async function addProduct(apiUrl: string) {
+    fetch(apiUrl, {
       method: "POST",
       mode: "cors",
       headers: {
@@ -69,7 +70,7 @@ function Form() {
 
   const handleFormSubmit = async (event: {preventDefault: () => void}) => {
     event.preventDefault();
-    addProduct(url);
+    addProduct(apiUrl);
 
     // return router.push('/dashboard/products')
   };
