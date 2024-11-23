@@ -47,20 +47,20 @@ export default function ProductsGrid({products}: {products: Product[]}) {
           products.map((product) => (
             <div
               key={product.id}
-              className="relative flex flex-col items-center border border-gray-300 p-4 rounded-lg shadow hover:shadow-lg hover:border-blue-500 transition">
+              className="relative flex flex-col items-left border border-gray-300 p-4 rounded-lg shadow hover:shadow-lg hover:border-blue-500 transition">
               <div className="flex items-center mt-4">
                 <input
                   type="checkbox"
                   id={`product-${product.id}`}
                   checked={selectedProducts.includes(product.id)}
                   onChange={() => handleCheckboxChange(product.id)}
-                  className="mr-2"
+                  className="mr-2 w-5 h-5 mb-2"
                 />
-                <label
+                {/* <label
                   htmlFor={`product-${product.id}`}
                   className="text-gray-700">
                   Select
-                </label>
+                </label> */}
               </div>
               <Image
                 src={product.imageUri}
@@ -74,10 +74,10 @@ export default function ProductsGrid({products}: {products: Product[]}) {
               </p>
               <div className="flex justify-between w-full">
                 <p className="text-lg font-bold text-gray-700">
-                  ₹{product.price}
+                  ₹ {product.price}
                 </p>
                 <p className="text-lg font-bold text-gray-700">
-                  ⏱ {product.duration}
+                  Duration: {product.duration} hr.
                 </p>
               </div>
             </div>

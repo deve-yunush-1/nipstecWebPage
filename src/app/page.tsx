@@ -10,7 +10,7 @@ import Navbar from "./Navbar";
 const LabelList = [
   {
     title: "Students",
-    link: "/students",
+    link: "/students?studentStatus=complete",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@ const LabelList = [
     ),
   },
   {
-    title: "Dashboard",
+    title: "Attendance",
     link: "/",
     icon: (
       <svg
@@ -71,8 +71,8 @@ const LabelList = [
     ),
   },
   {
-    title: "Add Product",
-    link: "/add-product",
+    title: "Class allocation",
+    link: "/",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -91,23 +91,19 @@ const LabelList = [
   },
 ];
 
-const imageList = [
-  "https://nipstec.com/assets/images/fwdsoftskillstop/SS%20(3).JPG",
-  "https://nipstec.com/assets/images/fwdsoftskillstop/SS%20(1).png",
-  "https://nipstec.com/assets/images/fwdsoftskillstop/SS%20(4).png",
-];
+const imageList = ["/main_view.webp"];
 
 // Carousel component
 function Carousel({images}: {images: string[]}) {
   return (
-    <div className="relative w-full h-64 overflow-hidden">
-      <div className="flex transition-transform duration-500 ease-in-out">
+    <div className="relative w-full overflow-hidden">
+      <div className="flex transition-transform h-50 duration-500 ease-in-out">
         {images.map((image, index) => (
           <img
             key={index}
             src={image}
             alt={`Slide ${index + 1}`}
-            className="w-full h-full object-cover"
+            className="w-full h-50 object-cover"
           />
         ))}
       </div>
@@ -127,7 +123,7 @@ function DashboardCard({
 }) {
   return (
     <Link href={link}>
-      <div className="flex flex-col justify-center items-center w-full h-48 bg-white shadow-lg rounded-lg p-4 hover:shadow-2xl hover:scale-105 transition-transform duration-200">
+      <div className="flex flex-col justify-center items-center w-full h-43 bg-white shadow-lg rounded-lg p-4 hover:shadow-2xl hover:scale-105 transition-transform duration-200">
         {icon}
         <h3 className="mt-4 text-lg font-semibold text-gray-700">{title}</h3>
       </div>
@@ -140,16 +136,12 @@ export default function Page() {
     <>
       <header className="">
         <Navbar />
-        <div className="p-4 w-64 h-full fixed bg-gray-800 text-white">
-          <h2 className="text-2xl font-bold">Dashboard</h2>
-          {/* Add your SideNav content here */}
-        </div>
       </header>
-      <main className="ml-64 p-6 bg-gray-100 min-h-screen">
-        <section className="mb-6">
+      <main className=" pt-[70px] bg-gray-100 min-h-screen">
+        <section className="">
           <Carousel images={imageList} />
         </section>
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section className="h-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {LabelList.map((label, index) => (
             <DashboardCard
               key={index}
