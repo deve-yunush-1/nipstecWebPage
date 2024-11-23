@@ -56,18 +56,6 @@ const EditCoursePage = () => {
       <div className="w-full max-h-lg mx-auto mt-10 pt-[150px] bg-white shadow-lg rounded-lg">
         <ProductForm onSubmit={handleAddCourse} productId={courseId} />
       </div>
-
-      <div className="mt-10">
-        <h2 className="text-xl font-bold mb-4">All Courses</h2>
-        <ul>
-          {courses.map((course, index) => (
-            <li key={index} className="py-2">
-              <h3 className="font-medium">{course.title}</h3>
-              <p>{course.description}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 };

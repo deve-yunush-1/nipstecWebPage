@@ -184,7 +184,7 @@ export default function ProductForm({productId, onSubmit}: ProductFormProps) {
             {isLoading
               ? "Loading..."
               : productId !== null
-              ? "Update Product"
+              ? "Save"
               : "Add Product"}
           </button>
         </div>

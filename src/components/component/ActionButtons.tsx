@@ -40,13 +40,13 @@ export default function ActionButtons({
       )} */}
 
       {/* Delete Product Button */}
-      {selectedProductIds.length === 1 && (
+      {/* {selectedProductIds.length === 1 && (
         <button
           onClick={onDeleteSelected}
           className="bg-red-500 text-white py-2 px-6 rounded-lg hover:bg-red-600 w-full md:w-auto">
           Delete Selected Products
         </button>
-      )}
+      )} */}
     </div>
   );
 }

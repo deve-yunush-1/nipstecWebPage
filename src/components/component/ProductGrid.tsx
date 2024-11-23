@@ -69,14 +69,16 @@ export default function ProductsGrid({products}: {products: Product[]}) {
                 height={200}
                 className="h-40 w-full object-cover rounded-md"
               />
-              <p className="mt-4 text-lg font-bold text-gray-700">
-                {product.title}
+              <p className="mt-4 text-md font-bold text-gray-700">
+                {product.title.length >= 50
+                  ? product.title.substring(0, 50)
+                  : product.title.substring(0, 50) + "..."}
               </p>
-              <div className="flex justify-between w-full">
-                <p className="text-lg font-bold text-gray-700">
+              <div className="mt-3 flex justify-between w-full">
+                <p className="text-md font-bold text-gray-700">
                   ₹ {product.price}
                 </p>
-                <p className="text-lg font-bold text-gray-700">
+                <p className="text-md font-bold text-gray-700">
                   Duration: {product.duration} hr.
                 </p>
               </div>
