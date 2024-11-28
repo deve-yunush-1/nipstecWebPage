@@ -27,13 +27,13 @@ export default async function ProductsPage({searchParams}: PageProps) {
   const products = await fetchProducts(category.toUpperCase());
 
   return (
-    <div className="p-6">
+    <div className="mt-40">
       <SideNav />
       <div className="flex justify-center space-x-4 mb-4">
         {/* Buttons to filter categories */}
-        <Link href="/products?category=english">
+        <Link href="/courses?category=english">
           <button
-            className={`py-2 px-4 text-2xl hover:text-blue-600 ${
+            className={`py-2 px-4 font-bold text-2xl hover:text-blue-600 ${
               category.toLowerCase() === "english"
                 ? "text-green-600"
                 : "text-gray-600"
@@ -41,7 +41,7 @@ export default async function ProductsPage({searchParams}: PageProps) {
             English
           </button>
         </Link>
-        <Link href="/products?category=computer">
+        <Link href="/courses?category=computer">
           <button
             className={`py-2 px-4 text-2xl hover:text-blue-600 ${
               category.toLowerCase() === "computer"
@@ -51,7 +51,7 @@ export default async function ProductsPage({searchParams}: PageProps) {
             Computer
           </button>
         </Link>
-        <Link href="/products?category=others">
+        <Link href="/courses?category=others">
           <button
             className={`py-2 px-4 text-2xl hover:text-blue-600 ${
               category.toLowerCase() === "others"

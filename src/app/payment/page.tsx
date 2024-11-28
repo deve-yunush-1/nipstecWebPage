@@ -148,7 +148,7 @@ function PaymentComponent() {
   const handleCloseButton = () => {
     setIsSuccess(false);
   };
-  const mode: ModeOfPayment = "bank"; // Replace this with your actual dynamic value
+  const mode: ModeOfPayment = (modeOfPayment || "bank") as ModeOfPayment;
 
   const transactionMethodList = transactionMethodOptions[mode] || [];
 
@@ -200,8 +200,8 @@ function PaymentComponent() {
             <div>No enrollment data found for this student.</div>
           )}
 
-          <h2 className="text-xl font-bold text-blue-600 mb-4">
-            Issue Receipt
+          <h2 className="text-xl mt-2 font-bold text-blue-600 mb-4">
+            Issue New Receipt
           </h2>
           <form className="space-y-4" onSubmit={handleFormSubmit}>
             <div className="grid grid-cols-2 gap-4">

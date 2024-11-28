@@ -3,7 +3,9 @@
 import {User} from "./User";
 
 export type Installment = {
-  dbEnrollment: DbEnrollment;
+  dbEnrollment: {
+    registration_number: string;
+  };
   amountPaid: number;
   paymentDateTime: string;
   paymentMethod: string;
@@ -11,6 +13,7 @@ export type Installment = {
   transParticular: string;
   dueAmount: number;
   status: string;
+  receiptNumber: string;
 };
 
 export type DbEnrollment = {

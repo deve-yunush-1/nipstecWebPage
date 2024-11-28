@@ -33,6 +33,7 @@ export function PaymentHistory({enrollmentId}: PaymentHistoryProps) {
       }
 
       const data = await response.json();
+
       setInstallments(data);
       setError(""); // Clear any previous error
     } catch (err) {
@@ -51,7 +52,13 @@ export function PaymentHistory({enrollmentId}: PaymentHistoryProps) {
     <>
       <div className="flex justify-between">
         <div className="font-bold text-2xl mb-2 text-blue-500">
-          Payment History
+          Payment History :-
+          <div className="text-black">
+            Reg. No.{" "}
+            {/* {installments[0] ?? (
+              <GetRegistration installment={installments[0]} />
+            )} */}
+          </div>
         </div>
         <button
           onClick={handleRefresh}
@@ -63,13 +70,13 @@ export function PaymentHistory({enrollmentId}: PaymentHistoryProps) {
         {/* Table Headers */}
         <div className="grid grid-cols-8 font-bold text-center">
           <div>S. No.</div>
-          <div>Reg. Number</div>
+          <div>Rec. No.</div>
           <div>Amount Paid</div>
-          <div>Amount Due</div>
           <div>Particular</div>
           <div>Mode</div>
           <div>Method</div>
           <div>Date</div>
+          <div>Amount Due</div>
         </div>
         <div className="w-full h-[2px] bg-blue-500 my-2"></div>
         <div className="w-full h-40 overflow-x-auto">
@@ -95,15 +102,15 @@ export function PaymentHistory({enrollmentId}: PaymentHistoryProps) {
                       isToday ? "bg-green-100" : ""
                     }`}>
                     <div>{installments.length - index}</div>
-                    <div>{item.dbEnrollment?.registration_number || "N/A"}</div>
+                    <div>{item.receiptNumber || "N/A"}</div>
                     <div>{item.amountPaid || "0"}</div>
-                    <div>{item.dueAmount || "0"}</div>
                     <div>{item.transParticular || "N/A"}</div>
                     <div>{item.paymentMode || "N/A"}</div>
                     <div>{item.paymentMethod || "N/A"}</div>
                     <div>
                       {getDate(item.paymentDateTime, "string") || "N/A"}
                     </div>
+                    <div>{item.dueAmount || "0"}</div>
                   </div>
                 );
               })}
@@ -138,3 +145,14 @@ function getDate(
 
   return timestamp.toLocaleString();
 }
+
+interface Registration {
+  installment: Installment;
+}
+const GetRegistration = ({installment}: Registration) => {
+  return (
+    <div>
+      <div>{installment.dbEnrollment.registration_number || "N/A"}</div>
+    </div>
+  );
+};
