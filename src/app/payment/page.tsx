@@ -1,7 +1,8 @@
 /** @format */
+
 "use client";
 
-import React, {useEffect, useState} from "react";
+import React, {Suspense, useEffect, useState} from "react";
 import Navbar from "../Navbar";
 import {DB_URL} from "@/modal/db_url";
 import {useSearchParams} from "next/navigation";
@@ -10,7 +11,7 @@ import Loading from "@/components/component/loading";
 import {SuccessModal} from "@/components/component/SuccessModal";
 import {ModeOfPayment} from "@/modal/transactionOptions";
 
-export default function PaymentComponent() {
+function PaymentComponent() {
   const [formData, setFormData] = useState({
     query: "",
     modeOfPayment: "",
@@ -25,7 +26,7 @@ export default function PaymentComponent() {
   });
   const [loadingSearching, setLoadingSearching] = useState(false);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
-  const [loadingStudentData, setLoadingStudentData] = useState(true); // Loading state for student data
+  const [loadingStudentData, setLoadingStudentData] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
   const [message, setMessage] = useState("");
   const [enrollment, setEnrollment] = useState(null);
@@ -61,7 +62,7 @@ export default function PaymentComponent() {
     if (!dataId) return;
 
     async function fetchData() {
-      setLoadingStudentData(true); // Set loading state to true
+      setLoadingStudentData(true);
       try {
         const student = await fetchStudentData(dataId!);
         const courseOptions = student.map((item: {courseName: any}) => ({
@@ -74,7 +75,7 @@ export default function PaymentComponent() {
       } catch (error) {
         console.error("Error fetching student data:", error);
       } finally {
-        setLoadingStudentData(false); // Set loading state to false
+        setLoadingStudentData(false);
       }
     }
 
@@ -168,11 +169,9 @@ export default function PaymentComponent() {
         onClose={handleCloseButton}
         message={message}
       />
-      ;
       <Navbar />
-      <div className="flex mt-20 justify-center items-center min-w-screen ">
+      <div className="flex mt-20 justify-center items-center min-w-screen">
         <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6">
-          {/* Search Section */}
           <form className="mb-6" onSubmit={handleSearch}>
             <label
               htmlFor="query"
@@ -201,30 +200,27 @@ export default function PaymentComponent() {
             <div>No enrollment data found for this student.</div>
           )}
 
-          {/* Payment Receipt Form */}
           <h2 className="text-xl font-bold text-blue-600 mb-4">
             Issue Receipt
           </h2>
           <form className="space-y-4" onSubmit={handleFormSubmit}>
-            {/* Received From & Course */}
             <div className="grid grid-cols-2 gap-4">
               <InputField
                 id="receivedFrom"
                 label="Received From"
-                type={`text`}
+                type="text"
                 value={formData.receivedFrom}
                 onChange={handleInputChange}
               />
               <InputField
                 id="course"
                 label="Course"
-                type={`text`}
+                type="text"
                 value={formData.course}
                 onChange={handleInputChange}
               />
             </div>
 
-            {/* Amount & Receipt Number */}
             <div className="grid grid-cols-2 gap-4">
               <InputField
                 id="amount"
@@ -235,11 +231,10 @@ export default function PaymentComponent() {
                   setAmount(Number(e.target.value))
                 }
               />
-              {/* Transaction Particular */}
               <InputField
                 id="transactionParticular"
                 label="Transaction Particular"
-                type={`text`}
+                type="text"
                 value={transParticular}
                 onChange={(e: {
                   target: {value: React.SetStateAction<string>};
@@ -248,7 +243,6 @@ export default function PaymentComponent() {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              {/* Mode of Payment */}
               <SelectField
                 id="modeOfPayment"
                 label="Mode of Payment"
@@ -258,8 +252,6 @@ export default function PaymentComponent() {
                   target: {value: React.SetStateAction<string>};
                 }) => setModeOfPayment(e.target.value)}
               />
-
-              {/* Transaction Method */}
               <SelectField
                 id="transactionMethod"
                 label="Transaction Method"
@@ -271,7 +263,6 @@ export default function PaymentComponent() {
               />
             </div>
 
-            {/* Date */}
             <InputField
               id="date"
               label="Transaction Date"
@@ -280,7 +271,6 @@ export default function PaymentComponent() {
               onChange={handleInputChange}
             />
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-blue-600 text-white font-medium py-2 rounded-md hover:bg-blue-700">
@@ -350,35 +340,16 @@ function SelectField({
         <option value="" disabled>
           Select an option
         </option>
-        {options.map(
-          (opt: {
-            value: React.Key | readonly string[] | null | undefined;
-            label:
-              | string
-              | number
-              | bigint
-              | boolean
-              | React.ReactElement<
-                  any,
-                  string | React.JSXElementConstructor<any>
-                >
-              | Iterable<React.ReactNode>
-              | React.ReactPortal
-              | Promise<React.AwaitedReactNode>
-              | null
-              | undefined;
-          }) => (
-            <option key={`${opt.value}`} value={`${opt.value}`}>
-              {opt.label}
-            </option>
-          )
-        )}
+        {options.map((opt: {value: any; label: any}) => (
+          <option key={`${opt.value}`} value={`${opt.value}`}>
+            {opt.label}
+          </option>
+        ))}
       </select>
     </div>
   );
 }
 
-// Fetch
 // Fetch Student Data
 async function fetchStudentData(studentId: string) {
   try {
@@ -391,4 +362,12 @@ async function fetchStudentData(studentId: string) {
     console.error("Error fetching student data:", error);
     throw error;
   }
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <PaymentComponent />
+    </Suspense>
+  );
 }

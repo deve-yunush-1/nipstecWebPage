@@ -136,5 +136,5 @@ function getDate(
     return date.toLocaleString("en-IN", {timeZone}); // Will use the user's local time zone automatically
   }
 
-  return timestamp.toLocaleString("en-IN");
+  return timestamp.toLocaleString();
 }
