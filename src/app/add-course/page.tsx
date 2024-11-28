@@ -23,6 +23,8 @@ function Form() {
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [syllabus, setSyllabus] = useState("");
+  const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(false);
   const [apiUrl, setApiUrl] = useState(
     "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net/api"
   );
@@ -40,6 +42,7 @@ function Form() {
     setApiUrl(DB_URL());
   });
   async function addProduct(apiUrl: string) {
+    setLoading(true);
     fetch(apiUrl + "/course/product", {
       method: "POST",
       mode: "cors",
@@ -51,12 +54,13 @@ function Form() {
     })
       .then((response) => {
         console.log(response);
+        setLoading(false);
         if (!response.ok) {
+          setErr("Please check network connection or try after some time");
           throw new Error("Network response was not ok");
         }
         console.log("Response " + response.json());
         location.reload();
-
         return response.json();
       })
       .then((data) => {
@@ -177,6 +181,7 @@ function Form() {
             className="w-full border rounded-lg p-2 focus:outline-blue-500"
           />
         </div>
+        <div className="col-span-2">{err}</div>
 
         {/* Submit Button */}
         <div className="col-span-2">

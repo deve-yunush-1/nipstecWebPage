@@ -5,12 +5,14 @@ import React, {use} from "react";
 import SideNav from "../Navbar";
 import Link from "next/link";
 import {DB_URL} from "@/modal/db_url";
+import ApproveModal from "@/components/component/Approvel";
 
 // Fetch Data on Server Side
 
 const fetchStudents = async (status: string): Promise<User[]> => {
   const response = await fetch(`${DB_URL()}/user/status?s=${status}`, {
     next: {revalidate: 10}, // Optional: revalidate data on the server after 10 seconds
+    cache: "no-cache",
   });
 
   if (!response.ok) {
@@ -141,13 +143,23 @@ function UserTable({users, title}: {users: User[]; title: string}) {
                     className="px-4 py-1 text-sm text-white bg-blue-500 rounded-md hover:bg-blue-600">
                     View
                   </a>
+                </td>
+                <td className="px-4 py-2 space-x-2">
                   {user.status === "INCOMPLETE" && (
-                    <a
-                      href={`https://spring-boot-dev-app-nipstec-h4gpf9e4fjfebta4.australiacentral-01.azurewebsites.net/api/user/update/status?userId=${user.id}`}
-                      className="px-4 py-1 text-sm text-white bg-green-500 rounded-md hover:bg-green-600">
-                      Approve
-                    </a>
+                    // <Link
+                    //   href={`https://spring-boot-dev-app-nipstec-h4gpf9e4fjfebta4.australiacentral-01.azurewebsites.net/api/user/update/status?userId=${user.id}`}
+                    //   className="px-4 py-1 text-sm text-white bg-green-500 rounded-md hover:bg-green-600">
+                    //   Approve
+                    // </Link>
+                    <ApproveModal studentId={user.id} />
                   )}
+                </td>
+                <td>
+                  <Link href={`/payment?studentid=${user.id}`}>
+                    <button className="px-3 py-1 gap-2 bg-green-500 rounded-md hover:bg-green:600 text-white">
+                      Payment
+                    </button>
+                  </Link>
                 </td>
               </tr>
             ))}

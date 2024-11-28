@@ -17,7 +17,6 @@ export default async function Page({
   // Fetch user data from your backend API
   const res = await fetch(`${DB_URL()}/user/id/?userId=${userId}`);
   const user: User = await res.json();
-  console.log(user);
 
   // Function to get the status class based on user status
   const getStatusClass = (status: string) => {
@@ -40,12 +39,12 @@ export default async function Page({
     value ? value : "Not Available";
 
   return (
-    <div className="flex-col h-screen bg-gray-50">
+    <div className="  bg-gray-50">
       {/* Sidebar Placeholder (If applicable) */}
       <SideNav />
-      <main className="flex-1 p-6 pt-[150px] overflow-auto">
+      <main className="flex-1  mt-[130px] overflow-auto">
         {/* Profile Card */}
-        <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg">
+        <div className="max-w-6xl mx-auto bg-white shadow-md rounded-lg">
           <div className="border-b p-4">
             <h2 className="text-3xl font-bold text-gray-800">
               {user.firstName + " " + user.lastName}
@@ -113,28 +112,36 @@ export default async function Page({
                 <h3 className="text-xl font-semibold text-gray-800">
                   Address Information
                 </h3>
-                {["currentAddress", "permanentAddress"].map((addressType) => (
-                  <div key={addressType}>
-                    <h4 className="text-lg font-semibold">
-                      {addressType.replace(/([A-Z,])/g, " $1").toUpperCase()}
-                    </h4>
-                    <div className="p-2 grid gap-2 border rounded-lg">
-                      {["pincode", "city", "state", "country"].map((field) => (
-                        <div key={field} className="flex justify-between">
-                          <span className="font-medium">
-                            {capitalizeFirstLetter(field)}:
-                          </span>
-                          {/* <span>
-                            {user.address && user.address[addressType]
-                              ? user.address[addressType]?.[field] ||
-                                "Not Available"
-                              : "Not Available"}
-                          </span> */}
-                        </div>
-                      ))}
+                {(["currentAddress", "permanentAddress"] as AddressType[]).map(
+                  (addressType) => (
+                    <div key={addressType}>
+                      <h4 className="text-lg font-semibold">
+                        {addressType.replace(/([A-Z])/g, " $1").toUpperCase()}
+                      </h4>
+                      <div className="p-2 grid gap-2 border rounded-lg">
+                        {(
+                          [
+                            "pincode",
+                            "city",
+                            "state",
+                            "country",
+                          ] as AddressField[]
+                        ).map((field) => (
+                          <div key={field} className="flex justify-between">
+                            <span className="font-medium">
+                              {field.charAt(0).toUpperCase() + field.slice(1)}:
+                            </span>
+                            <span>
+                              {user.address?.[addressType]?.[field] ||
+                                "Not Available"}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                )}
+                ;
               </div>
             </div>
           </div>
@@ -143,19 +150,19 @@ export default async function Page({
     </div>
   );
 }
+type AddressType = "currentAddress" | "permanentAddress"; // Define possible address keys
+type AddressField = "pinCode" | "city" | "state" | "country"; // Define possible fields within each address
 
-type UserAddress = {
-  currentAddress: Address;
-  permanentAddress: Address;
-};
-export type Address = {
-  street: string;
-  city: string;
-  state: string;
-  country: string;
-  pinCode: string;
-  nationality: string;
-};
+interface AddressDetails {
+  pincode?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+}
+
+interface UserAddress {
+  [key: string]: AddressDetails; // Add this index signature
+}
 
 // Helper function to capitalize the first letter of each word
 function capitalizeFirstLetter(string: string) {

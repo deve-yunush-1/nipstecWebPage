@@ -3,6 +3,7 @@
 import type {Metadata} from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Head from "next/head";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,10 +28,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <link rel="icon" href="/nipstec-fav-icon.png" sizes="any" />
+      <Head>
+        <link rel="icon" href="/nipstec-fav-icon.png" sizes="any" />
+      </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="w-full min-h-screen mx-auto max-w-screen-lg ">
+        <div className="w-full min-w-screen mx-auto max-w-screen-lg ">
           {children}
         </div>
       </body>

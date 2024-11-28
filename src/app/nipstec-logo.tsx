@@ -9,11 +9,12 @@ export default function NipstecLogo() {
       <GlobeAltIcon className="h-12 w-12 rotate-[15deg]" />
       {/*<p className="text-[44px]">Nipstec</p>>*/}
       <Image
-        src="https://www.nipstec.com/nipstec-logo.webp"
+        src="/nipstec-logo.webp"
         alt="nipstec"
-        className="w-full"
+        className="w-full h-20"
         width={100}
         height={1}
+        priority
       />
     </div>
   );
