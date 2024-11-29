@@ -13,7 +13,7 @@ import {DB_URL} from "@/modal/db_url";
 const fetchProducts = async (category: string) => {
   const response = await fetch(
     `${DB_URL()}/course/category?c=${category}`,
-    {cache: "no-store"} // Ensure fresh data
+    {cache: "default"} // Ensure fresh data
   );
 
   if (!response.ok) {

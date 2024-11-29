@@ -14,7 +14,7 @@ import Loading from "@/components/component/loading";
 const fetchStudents = async (status: string): Promise<User[]> => {
   const response = await fetch(`${DB_URL()}/user/status?s=${status}`, {
     next: {revalidate: 10}, // Optional: revalidate data on the server after 10 seconds
-    cache: "no-cache",
+    cache: "default",
   });
 
   if (!response.ok) {
