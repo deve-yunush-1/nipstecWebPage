@@ -86,10 +86,6 @@ export default async function Page({
                 <span className="font-semibold">Qualification:</span>
                 <span className="text-gray-700">{user.qualification}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">Registration Number:</span>
-                <span className="text-gray-700">{user.registrationNumber}</span>
-              </div>
             </div>
 
             {/* Identity & Address Section */}

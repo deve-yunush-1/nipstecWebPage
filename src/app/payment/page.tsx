@@ -10,6 +10,7 @@ import {PaymentHistory} from "@/components/component/PaymentHistory";
 import Loading from "@/components/component/loading";
 import {SuccessModal} from "@/components/component/SuccessModal";
 import {ModeOfPayment} from "@/modal/transactionOptions";
+import {DbEnrollment} from "@/modal/Installment";
 
 function PaymentComponent() {
   const [formData, setFormData] = useState({
@@ -34,10 +35,11 @@ function PaymentComponent() {
   const [amount, setAmount] = useState(0);
   const [transParticular, setTransParticular] = useState("");
   const [methodOfPayment, setMethodOfPayment] = useState("");
+  const [registerationNumber, setRegisterationNumber] = useState("");
 
   const searchParams = useSearchParams();
   const dataId = searchParams?.get("studentid");
-  const [enrolledCourse, setEnrolledCourse] = useState();
+  const [enrolledCourse, setEnrolledCourse] = useState([]);
 
   const modeOptions = [
     {value: "bank", label: "BANK"},
@@ -60,18 +62,20 @@ function PaymentComponent() {
 
   useEffect(() => {
     if (!dataId) return;
-
+    var courseOptions: [];
     async function fetchData() {
       setLoadingStudentData(true);
+
       try {
         const student = await fetchStudentData(dataId!);
-        const courseOptions = student.map((item: {courseName: any}) => ({
-          value: item.courseName,
-          label: item.courseName,
+        formData.receivedFrom =
+          student[0].user.firstName + " " + student[0].user.lastName || "";
+        courseOptions = student.map((item: DbEnrollment, index: number) => ({
+          value: item.id, // Assuming each item has an ID
+          label: item.product.title,
         }));
-        setEnrolledCourse(courseOptions);
-        setEnrollment(student[0]?.id);
-        formData.receivedFrom = student[0].user.firstName;
+
+        setEnrolledCourse(courseOptions); // Set multiple course options
       } catch (error) {
         console.error("Error fetching student data:", error);
       } finally {
@@ -148,6 +152,11 @@ function PaymentComponent() {
   const handleCloseButton = () => {
     setIsSuccess(false);
   };
+
+  const fetchPaymentHistory = (e: any) => {
+    setLoadingSearching(true);
+    setEnrollment(e);
+  };
   const mode: ModeOfPayment = (modeOfPayment || "bank") as ModeOfPayment;
 
   const transactionMethodList = transactionMethodOptions[mode] || [];
@@ -170,7 +179,7 @@ function PaymentComponent() {
         message={message}
       />
       <Navbar />
-      <div className="flex mt-20 justify-center items-center min-w-screen">
+      <div className="flex mt-[100px] justify-center items-center min-w-screen">
         <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6">
           <form className="mb-6" onSubmit={handleSearch}>
             <label
@@ -194,6 +203,26 @@ function PaymentComponent() {
               </button>
             </div>
           </form>
+
+          <div className="flex justify-between">
+            <div className="font-bold text-2xl mb-2 text-blue-500">
+              Payment History :- {formData.receivedFrom}
+            </div>
+            <SelectField
+              id="course"
+              label="Enrolled Courses"
+              value={formData.course}
+              options={enrolledCourse}
+              onChange={(e: {target: {value: any}}) => {
+                setFormData((prev) => ({
+                  ...prev,
+                  course: e.target.value,
+                }));
+                fetchPaymentHistory(e.target.value); // Fetch history when course is selected
+              }}
+            />
+          </div>
+
           {enrollment ? (
             <PaymentHistory enrollmentId={enrollment} />
           ) : (
@@ -204,23 +233,6 @@ function PaymentComponent() {
             Issue New Receipt
           </h2>
           <form className="space-y-4" onSubmit={handleFormSubmit}>
-            <div className="grid grid-cols-2 gap-4">
-              <InputField
-                id="receivedFrom"
-                label="Received From"
-                type="text"
-                value={formData.receivedFrom}
-                onChange={handleInputChange}
-              />
-              <InputField
-                id="course"
-                label="Course"
-                type="text"
-                value={formData.course}
-                onChange={handleInputChange}
-              />
-            </div>
-
             <div className="grid grid-cols-2 gap-4">
               <InputField
                 id="amount"
@@ -262,14 +274,6 @@ function PaymentComponent() {
                 }) => setMethodOfPayment(e.target.value)}
               />
             </div>
-
-            <InputField
-              id="date"
-              label="Transaction Date"
-              type="date"
-              value={formData.date}
-              onChange={handleInputChange}
-            />
 
             <button
               type="submit"

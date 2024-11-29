@@ -2,7 +2,7 @@
 
 "use client";
 import {DB_URL} from "@/modal/db_url";
-import {Product} from "@/modal/Installment";
+import {Product} from "@/modal/Product";
 import React, {useEffect, useState, Suspense} from "react";
 
 interface ProductFormProps {

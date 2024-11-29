@@ -1,12 +1,18 @@
 /** @format */
 
+"use client";
 import Link from "next/link";
 import SideNav from "../Navbar";
 import ProductsGrid from "@/components/component/ProductGrid";
+import {useSearchParams} from "next/navigation";
+import {Suspense, useEffect, useState} from "react";
+import {Product} from "@/modal/Product";
+import {DB_URL} from "@/modal/db_url";
 
+// Fetch products from the server
 const fetchProducts = async (category: string) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_DATABASE_URL}/course/category?c=${category}`,
+    `${DB_URL()}/course/category?c=${category}`,
     {cache: "no-store"} // Ensure fresh data
   );
 
@@ -17,20 +23,36 @@ const fetchProducts = async (category: string) => {
   return response.json();
 };
 
-interface PageProps {
-  searchParams: Promise<{category: string}>; // Fixed type
-}
+function ProductsPage() {
+  const searchParams = useSearchParams();
+  const category = searchParams?.get("category") || "COMPUTER"; // Default category
 
-export default async function ProductsPage({searchParams}: PageProps) {
-  // Extract category with a default fallback
-  const {category} = (await searchParams) || "COMPUTER";
-  const products = await fetchProducts(category.toUpperCase());
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  // Function to fetch products based on category
+  const fetchProduct = async () => {
+    setLoading(true); // Set loading to true when fetching
+    try {
+      const data: Product[] = await fetchProducts(category.toUpperCase());
+      setProducts(data); // Update state with fetched products
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false); // Set loading to false after fetching
+    }
+  };
+
+  // Effect to fetch products only when the category changes
+  useEffect(() => {
+    fetchProduct();
+  }, [category]); // Dependency on category ensures the effect runs when category changes
 
   return (
-    <div className="mt-40">
+    <div className="mt-40 mb-10">
       <SideNav />
       <div className="flex justify-center space-x-4 mb-4">
-        {/* Buttons to filter categories */}
+        {/* Category filter buttons */}
         <Link href="/courses?category=english">
           <button
             className={`py-2 px-4 font-bold text-2xl hover:text-blue-600 ${
@@ -62,7 +84,25 @@ export default async function ProductsPage({searchParams}: PageProps) {
           </button>
         </Link>
       </div>
-      <ProductsGrid products={products} />
+
+      {loading ? (
+        <div>
+          {" "}
+          <div className="flex justify-center items-center max-h-screen">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
+        </div> // Show loading while fetching data
+      ) : (
+        <ProductsGrid products={products} /> // Show products once they are loaded
+      )}
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <ProductsPage />
+    </Suspense>
   );
 }

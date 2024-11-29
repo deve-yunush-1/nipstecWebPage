@@ -1,5 +1,6 @@
 /** @format */
 
+import {Product} from "./Product";
 import {User} from "./User";
 
 export type Installment = {
@@ -17,6 +18,7 @@ export type Installment = {
 };
 
 export type DbEnrollment = {
+  id: Number;
   totalFee: number;
   balanceFee: number;
   user: User;
@@ -26,12 +28,4 @@ export type DbEnrollment = {
   createdAt: string;
 
   registration_number: string;
-};
-
-export type Product = {
-  title: string;
-  price: number;
-  description: string;
-  sullabus: string;
-  category: string;
 };

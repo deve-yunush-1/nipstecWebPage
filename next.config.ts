@@ -15,6 +15,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "nipstec.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname:
           "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net",
         pathname: "/**",
