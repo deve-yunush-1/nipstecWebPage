@@ -99,7 +99,7 @@ function UserComponent() {
         ) : users.length > 0 ? (
           <UserTable users={users} title={studentStatus} />
         ) : (
-          <Loading />
+          <div>Not Available any Submitted students</div>
         )}
       </main>
     </div>

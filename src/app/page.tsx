@@ -2,9 +2,11 @@
 
 "use client";
 
-import React from "react";
+import React, {useCallback, useEffect} from "react";
 import Link from "next/link";
 import Navbar from "./Navbar";
+import Image from "next/image";
+import {Notification, useWebSocket} from "@/hooks/useWebSocket";
 
 // Mock data for labels and carousel images
 const LabelList = [
@@ -99,9 +101,14 @@ function Carousel({images}: {images: string[]}) {
     <div className="relative w-full overflow-hidden">
       <div className="flex transition-transform h-50 duration-500 ease-in-out">
         {images.map((image, index) => (
-          <img
+          <Image
             key={index}
             src={image}
+            width={1000}
+            height={1000}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL="https://placehold.co/400"
             alt={`Slide ${index + 1}`}
             className="w-full h-50 object-cover"
           />
@@ -132,15 +139,22 @@ function DashboardCard({
 }
 
 export default function Page() {
+  const notifications: Notification[] = useWebSocket(
+    "http://localhost:8080/stomp-endpoint",
+    "/topic/topic/notifications"
+  );
+  console.log("Nogit. ", notifications);
+
   return (
     <>
       <header className="">
         <Navbar />
       </header>
-      <main className=" pt-[70px] bg-gray-100 min-h-screen">
+      <main className="mt-[70px] bg-gray-100 min-h-screen">
         <section className="">
           <Carousel images={imageList} />
         </section>
+
         <section className="h-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {LabelList.map((label, index) => (
             <DashboardCard
@@ -151,6 +165,13 @@ export default function Page() {
             />
           ))}
         </section>
+        <ul>
+          {notifications.map((notification) => (
+            <li key={notification.id}>
+              <strong>{notification.timestamp}</strong>: {notification.message}
+            </li>
+          ))}
+        </ul>
       </main>
     </>
   );

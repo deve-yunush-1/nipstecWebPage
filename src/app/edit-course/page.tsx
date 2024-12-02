@@ -7,17 +7,16 @@ import {useSearchParams} from "next/navigation";
 import SideNav from "../Navbar";
 import ProductForm from "@/components/component/ProductForm";
 import {DB_URL} from "@/modal/db_url";
+import {SuccessModal} from "@/components/component/SuccessModal";
 
 const EditCoursePage = () => {
   const searchParams = useSearchParams();
   const courseId = searchParams?.get("courseId"); // Access directly without state
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [message, setMessage] = useState("");
 
   const [courses, setCourses] = useState<any[]>([]);
   const [err, setErr] = useState("");
-
-  useEffect(() => {
-    console.log("Data base url: ", DB_URL());
-  });
 
   const handleAddCourse = async (courseData: any) => {
     setCourses((prevCourses) => [...prevCourses, courseData]);
@@ -26,7 +25,7 @@ const EditCoursePage = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      method: "PUT",
+      method: "POST",
       body: JSON.stringify(courseData),
     })
       .then(async (res) => {
@@ -35,15 +34,19 @@ const EditCoursePage = () => {
         }
         const {message} = await res.json();
         if (message === "success") {
+          setIsSuccess(true);
           location.href = "/courses?category=computer";
         }
         setErr(message);
       })
       .catch((err) => {
-        if (err) setErr(err);
-        console.error(err);
+        if (err) setErr(err?.message);
+        console.error(err?.message);
       });
     console.log("Course added:", courseData);
+  };
+  const handleCloseButton = () => {
+    setIsSuccess(false);
   };
 
   if (!courseId) {
@@ -53,6 +56,12 @@ const EditCoursePage = () => {
   return (
     <div className="container">
       <SideNav />
+      <SuccessModal
+        isOpen={isSuccess}
+        onClose={handleCloseButton}
+        message={message}
+        title={`Payment Alert`}
+      />
       <div className="w-full max-h-lg mx-auto mt-10 pt-[150px] bg-white shadow-lg rounded-lg">
         <ProductForm onSubmit={handleAddCourse} productId={courseId} />
       </div>

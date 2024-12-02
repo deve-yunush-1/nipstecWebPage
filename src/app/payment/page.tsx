@@ -137,13 +137,12 @@ function PaymentComponent() {
       }
 
       const result = await res.json();
-      console.log(result);
+
       setMessage("Payment details submitted successfully!");
       setIsSuccess(true);
     } catch (error) {
-      console.error("Error submitting payment details:", error);
       setIsSuccess(true);
-      setMessage("Error submitting payment details.");
+      setMessage("Installment amount exceeds balance fee", error);
     } finally {
       setLoadingSubmit(false);
     }
@@ -177,6 +176,7 @@ function PaymentComponent() {
         isOpen={isSuccess}
         onClose={handleCloseButton}
         message={message}
+        title={`Payment Alert`}
       />
       <Navbar />
       <div className="flex mt-[100px] justify-center items-center min-w-screen">

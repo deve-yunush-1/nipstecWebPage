@@ -27,7 +27,7 @@ export type UserAddress = {
   permanentAddress: Address;
 };
 export type Address = {
-  street: string;
+  address: string;
   city: string;
   state: string;
   country: string;

@@ -144,7 +144,9 @@ export function PaymentHistory({enrollmentId}: PaymentHistoryProps) {
               <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
             </div>
           ) : error ? (
-            <p className="text-red-500 text-center">Error: {error}</p>
+            <p className="text-red-500 text-center">
+              Error: Please make a Receipt{" "}
+            </p>
           ) : installments.length > 0 ? (
             <div>
               {[...installments].reverse().map((item: Installment, index) => {

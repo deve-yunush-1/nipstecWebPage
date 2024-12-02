@@ -97,13 +97,17 @@ export const UserTable = ({users, title}: {users: User[]; title: string}) => {
                         <ApproveModal studentId={user.id} />
                       )}
                     </td>
-                    <td>
-                      <Link href={`/payment?studentid=${user.id}`}>
-                        <button className="px-3 py-1 gap-2 bg-green-500 rounded-md hover:bg-green:600 text-white">
-                          Payment
-                        </button>
-                      </Link>
-                    </td>
+                    {user.status.toLocaleLowerCase() !== "enquiry" ? (
+                      <td>
+                        <Link href={`/payment?studentid=${user.id}`}>
+                          <button className="px-3 py-1 gap-2 bg-green-500 rounded-md hover:bg-green:600 text-white">
+                            Payment
+                          </button>
+                        </Link>
+                      </td>
+                    ) : (
+                      ""
+                    )}
                   </tr>
                 ))
               : ""}
