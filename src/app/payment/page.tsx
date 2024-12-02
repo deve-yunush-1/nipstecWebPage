@@ -137,12 +137,11 @@ function PaymentComponent() {
       }
 
       const result = await res.json();
-
       setMessage("Payment details submitted successfully!");
       setIsSuccess(true);
     } catch (error) {
       setIsSuccess(true);
-      setMessage("Installment amount exceeds balance fee", error);
+      setMessage("Installment amount exceeds balance fee");
     } finally {
       setLoadingSubmit(false);
     }
