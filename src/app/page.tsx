@@ -139,12 +139,6 @@ function DashboardCard({
 }
 
 export default function Page() {
-  const notifications: Notification[] = useWebSocket(
-    "http://localhost:8080/stomp-endpoint",
-    "/topic/topic/notifications"
-  );
-  console.log("Nogit. ", notifications);
-
   return (
     <>
       <header className="">
@@ -165,13 +159,6 @@ export default function Page() {
             />
           ))}
         </section>
-        <ul>
-          {notifications.map((notification) => (
-            <li key={notification.id}>
-              <strong>{notification.timestamp}</strong>: {notification.message}
-            </li>
-          ))}
-        </ul>
       </main>
     </>
   );
