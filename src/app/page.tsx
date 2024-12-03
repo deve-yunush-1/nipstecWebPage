@@ -2,11 +2,11 @@
 
 "use client";
 
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import Link from "next/link";
 import Navbar from "./Navbar";
 import Image from "next/image";
-import {Notification, useWebSocket} from "@/hooks/useWebSocket";
+import {Notifications, useWebSocket} from "@/hooks/useWebSocket";
 
 // Mock data for labels and carousel images
 const LabelList = [
@@ -139,6 +139,49 @@ function DashboardCard({
 }
 
 export default function Page() {
+  const [isPermissionGranted, setPermissionGranted] = useState(false);
+
+  const notifications = useWebSocket(
+    `${process.env.NEXT_PUBLIC_NOTIFICATION_URL}/ws`,
+    "/topic/notifications"
+  );
+
+  const requestNotificationPermission = () => {
+    if ("Notification" in window) {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          setPermissionGranted(true);
+        } else {
+          setPermissionGranted(false);
+          alert("Notification permission denied!");
+        }
+      });
+    } else {
+      setPermissionGranted(false);
+      alert("Browser does not support notifications.");
+    }
+  };
+
+  // Trigger a notification
+  const sendNotification = () => {
+    if (isPermissionGranted) {
+      notifications.map((item, index) => {
+        new Notification("New user added!", {
+          body: item.message,
+          icon: "/nipstec-logo.webp", // Replace with your image path
+        });
+      });
+    } else {
+      if (Notification.permission !== "granted") {
+        Notification.requestPermission();
+      }
+    }
+  };
+
+  useEffect(() => {
+    requestNotificationPermission();
+  }, []);
+
   return (
     <>
       <header className="">
@@ -160,6 +203,23 @@ export default function Page() {
           ))}
         </section>
       </main>
+
+      <div>
+        <h1>Next.js Notification Example</h1>
+        <button
+          onClick={sendNotification}
+          className="bg-black"
+          style={{padding: "10px", margin: "10px"}}>
+          Show Notification
+        </button>
+        <ul>
+          {notifications.map((item, index) => (
+            <>
+              <li key={index}>{item.message}</li>
+            </>
+          ))}
+        </ul>
+      </div>
     </>
   );
 }

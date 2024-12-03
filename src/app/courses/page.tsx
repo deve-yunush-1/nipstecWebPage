@@ -51,40 +51,64 @@ function ProductsPage() {
   return (
     <div className="mt-40 mb-10">
       <SideNav />
-      <div className="flex justify-center space-x-4 mb-4">
-        {/* Category filter buttons */}
-        <Link href="/courses?category=english">
-          <button
-            className={`py-2 px-4 font-bold text-2xl hover:text-blue-600 ${
+      <div className="flex justify-between">
+        <div className="flex justify-center space-x-4 mb-4 rounded-lg bg-gray-200 p-2">
+          {/* Category filter buttons */}
+          <Link
+            href="/courses?category=english"
+            className={`rounded-lg z-50 ${
               category.toLowerCase() === "english"
-                ? "text-green-600"
+                ? "text-green-600 bg-white"
                 : "text-gray-600"
             }`}>
-            English
-          </button>
-        </Link>
-        <Link href="/courses?category=computer">
-          <button
-            className={`py-2 px-4 text-2xl hover:text-blue-600 ${
+            <button
+              className={`py-2 px-4 font-bold text-2xl hover:text-blue-600 ${
+                category.toLowerCase() === "english"
+                  ? "text-green-600"
+                  : "text-gray-600"
+              }`}>
+              English
+            </button>
+          </Link>
+          <Link
+            href="/courses?category=computer"
+            className={` rounded-lg z-50 ${
               category.toLowerCase() === "computer"
-                ? "text-green-600"
+                ? "text-green-600 bg-white"
                 : "text-gray-600"
             }`}>
-            Computer
-          </button>
-        </Link>
-        <Link href="/courses?category=others">
-          <button
-            className={`py-2 px-4 text-2xl hover:text-blue-600 ${
+            <button
+              className={`py-2 px-4 font-bold text-2xl hover:text-blue-600 ${
+                category.toLowerCase() === "computer"
+                  ? "text-green-600"
+                  : "text-gray-600"
+              }`}>
+              Computer
+            </button>
+          </Link>
+          <Link
+            href="/courses?category=others"
+            className={` rounded-lg z-50 ${
               category.toLowerCase() === "others"
-                ? "text-green-600"
+                ? "text-green-600 bg-white"
                 : "text-gray-600"
             }`}>
-            Others
-          </button>
-        </Link>
+            <button
+              className={`py-2 px-4 font-bold text-2xl hover:text-blue-600 ${
+                category.toLowerCase() === "others"
+                  ? "text-green-600"
+                  : "text-gray-600"
+              }`}>
+              Others
+            </button>
+          </Link>
+        </div>
+        <button
+          onClick={fetchProduct}
+          className="bg-blue-500 text-white px-4 py-2 h-10 justify-center flex rounded-lg hover:bg-blue-600">
+          Refresh
+        </button>
       </div>
-
       {loading ? (
         <div>
           {" "}

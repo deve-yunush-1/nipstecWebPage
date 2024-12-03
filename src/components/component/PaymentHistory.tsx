@@ -122,7 +122,8 @@ export function PaymentHistory({enrollmentId}: PaymentHistoryProps) {
   return (
     <>
       <div className="text-black text-2xl">
-        Reg. No.:- {registerationNumber}
+        Reg. No.:-{" "}
+        {registerationNumber ?? "Auto generated after issue first receipt"}
       </div>
       <div className="container border-2 border-blue-500 p-3 rounded-md">
         {/* Table Headers */}

@@ -7,7 +7,6 @@ import {User} from "@/modal/User";
 import SearchBar from "./SearchBarComponet";
 
 export const UserTable = ({users, title}: {users: User[]; title: string}) => {
-  console.log("User table, ", title);
   const [filteredProducts, setFilteredProducts] = useState<User[]>(users);
   const updateFilteredProducts = (filteredItems: User[]) => {
     setFilteredProducts(filteredItems);
