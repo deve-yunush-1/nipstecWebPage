@@ -144,7 +144,10 @@ export default function Page() {
   const [isPermissionGranted, setPermissionGranted] = useState(false);
   const [url, setUrl] = useState(notification_url());
 
-  const notifications = useWebSocket(`${url}/ws`, "/topic/notifications");
+  const notifications = useWebSocket(
+    `${notification_url()}/ws`,
+    "/topic/notifications"
+  );
 
   const requestNotificationPermission = () => {
     if ("Notification" in window) {

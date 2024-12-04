@@ -58,34 +58,53 @@ function UserComponent() {
       {/* Main Content */}
       <main className="pt-[150px] flex-1 min-w-screen bg-gray-100">
         <section className="mb-6 container mx-auto p-4">
-          <div className="flex space-x-4">
-            {/* Links to filter by studentStatus */}
-            <Link href="/students?studentStatus=complete">
-              <button
-                className={`py-2 px-4 text-2xl text-gray-900 hover:text-blue-600 focus:outline-none ${getStatusClass(
-                  studentStatus == "complete" ? "COMPLETE" : ""
-                )}`}>
-                Registered
-              </button>
-            </Link>
+          <div className="flex justify-between">
+            <div className="flex space-x-4 bg-gray-200 p-2 rounded-lg">
+              {/* Links to filter by studentStatus */}
+              <Link
+                href="/students?studentStatus=complete"
+                className={` rounded-lg ${
+                  studentStatus === "complete" ? "bg-white" : "bg-gray-200"
+                }`}>
+                <button
+                  className={`py-2 px-4 text-2xl text-gray-900 hover:text-blue-600 focus:outline-none ${getStatusClass(
+                    studentStatus == "complete" ? "COMPLETE" : ""
+                  )}`}>
+                  Registered
+                </button>
+              </Link>
 
-            <Link href="/students?studentStatus=incomplete">
-              <button
-                className={`py-2 px-4 text-2xl text-gray-900 hover:text-blue-600 focus:outline-none ${getStatusClass(
-                  studentStatus == "incomplete" ? "INCOMPLETE" : ""
-                )}`}>
-                Submitted
-              </button>
-            </Link>
+              <Link
+                href="/students?studentStatus=incomplete"
+                className={` rounded-lg ${
+                  studentStatus === "incomplete" ? "bg-white" : "bg-gray-200"
+                }`}>
+                <button
+                  className={`py-2 px-4 text-2xl text-gray-900 hover:text-blue-600 focus:outline-none ${getStatusClass(
+                    studentStatus == "incomplete" ? "INCOMPLETE" : ""
+                  )}`}>
+                  Submitted
+                </button>
+              </Link>
 
-            <Link href="/students?studentStatus=enquiry">
-              <button
-                className={`py-2 px-4 text-2xl text-gray-900 hover:text-blue-600 focus:outline-none ${getStatusClass(
-                  studentStatus == "enquiry" ? "ENQUIRY" : ""
-                )}`}>
-                Enquiry
-              </button>
-            </Link>
+              <Link
+                href="/students?studentStatus=enquiry"
+                className={` rounded-lg ${
+                  studentStatus === "enquiry" ? "bg-white" : "bg-gray-200"
+                }`}>
+                <button
+                  className={`py-2 px-4 text-2xl text-gray-900 hover:text-blue-600 focus:outline-none ${getStatusClass(
+                    studentStatus == "enquiry" ? "ENQUIRY" : ""
+                  )}`}>
+                  Enquiry
+                </button>
+              </Link>
+            </div>
+            <button
+              className="bg-blue-500 hover:bg-blue-600 px-4 py-2 h-12 rounded-lg text-white mt-2"
+              onClick={fetchUser}>
+              Refresh
+            </button>
           </div>
         </section>
 
