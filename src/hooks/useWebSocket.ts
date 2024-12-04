@@ -42,7 +42,9 @@ export const useWebSocket = (url: string, topic: string): Notifications[] => {
             notification.firstname + " " + notification.lastname;
           setTimeout(() => {
             new Notification("New student added", {
+              // badge: "/nipstec-logo.webp",
               body: notification_message,
+              icon: "/nipstec-logo.webp",
             });
           }, 500);
         }

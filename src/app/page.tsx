@@ -7,7 +7,9 @@ import Link from "next/link";
 import Navbar from "./Navbar";
 import Image from "next/image";
 import {Notifications, useWebSocket} from "@/hooks/useWebSocket";
-
+import NotificationCompo from "@/components/ui/NotificationCompo";
+import {Notify} from "@/components/ui/Notift";
+import {notification_url} from "@/modal/db_url";
 // Mock data for labels and carousel images
 const LabelList = [
   {
@@ -140,11 +142,9 @@ function DashboardCard({
 
 export default function Page() {
   const [isPermissionGranted, setPermissionGranted] = useState(false);
+  const [url, setUrl] = useState(notification_url());
 
-  const notifications = useWebSocket(
-    `${process.env.NEXT_PUBLIC_NOTIFICATION_URL}/ws`,
-    "/topic/notifications"
-  );
+  const notifications = useWebSocket(`${url}/ws`, "/topic/notifications");
 
   const requestNotificationPermission = () => {
     if ("Notification" in window) {
@@ -168,6 +168,7 @@ export default function Page() {
       notifications.map((item, index) => {
         new Notification("New user added!", {
           body: item.message,
+          badge: "/nipstec-logo.webp",
           icon: "/nipstec-logo.webp", // Replace with your image path
         });
       });
@@ -179,6 +180,12 @@ export default function Page() {
   };
 
   useEffect(() => {
+    const apiUrl = process.env.NEXT_PUBLIC_NOTIFICATION_URL as string;
+    if (apiUrl === "undefined") {
+      setUrl(notification_url());
+    } else {
+      setUrl(apiUrl);
+    }
     requestNotificationPermission();
   }, []);
 
@@ -203,23 +210,6 @@ export default function Page() {
           ))}
         </section>
       </main>
-
-      <div>
-        <h1>Next.js Notification Example</h1>
-        <button
-          onClick={sendNotification}
-          className="bg-black"
-          style={{padding: "10px", margin: "10px"}}>
-          Show Notification
-        </button>
-        <ul>
-          {notifications.map((item, index) => (
-            <>
-              <li key={index}>{item.message}</li>
-            </>
-          ))}
-        </ul>
-      </div>
     </>
   );
 }

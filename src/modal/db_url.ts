@@ -6,3 +6,10 @@ export function DB_URL() {
     "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net/api";
   return apiUrl;
 }
+
+export function notification_url() {
+  const apiUrl =
+    process.env.NEXT_PUBLIC_NOTIFICATION_URL ||
+    "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net";
+  return apiUrl;
+}
