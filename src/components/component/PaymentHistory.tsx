@@ -8,13 +8,15 @@ import Loading from "./loading";
 
 interface PaymentHistoryProps {
   enrollmentId: any;
+  flag: boolean;
 }
 
-export function PaymentHistory({enrollmentId}: PaymentHistoryProps) {
+export function PaymentHistory({enrollmentId, flag}: PaymentHistoryProps) {
   const [installments, setInstallments] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false); // Loading state
   const [registerationNumber, setRegisterationNumber] = useState("");
+  const [studentName, setStudentName] = useState("");
   if (!enrollmentId) return; // Only fetch if enrollmentData exists
   const fetchEnrollmentData = async () => {
     setLoading(true); // Start loading
@@ -36,7 +38,16 @@ export function PaymentHistory({enrollmentId}: PaymentHistoryProps) {
       const data = await response.json();
 
       setRegisterationNumber(data[0].dbEnrollment.registration_number);
-
+      console.log(
+        data[0].dbEnrollment.user.firstName +
+          " " +
+          data[0].dbEnrollment.user.lastName
+      );
+      setStudentName(
+        data[0].dbEnrollment.user.firstName +
+          " " +
+          data[0].dbEnrollment.user.lastName
+      );
       setInstallments(data);
       setError(""); // Clear any previous error
     } catch (err) {
@@ -46,6 +57,8 @@ export function PaymentHistory({enrollmentId}: PaymentHistoryProps) {
     }
   };
   useEffect(() => {
+    if (flag) fetchEnrollmentData();
+
     fetchEnrollmentData();
   }, [enrollmentId]); // Trigger when enrollmentData changes
 
@@ -63,6 +76,7 @@ export function PaymentHistory({enrollmentId}: PaymentHistoryProps) {
             body {
               font-family: Arial, sans-serif;
             }
+             
             .container {
               margin: 20px;
               padding: 20px;
@@ -78,6 +92,9 @@ export function PaymentHistory({enrollmentId}: PaymentHistoryProps) {
               padding: 8px;
               text-align: center;
             }
+              .table-cols td:first-child {
+    padding-right: 150px; /* Add margin between the two columns */
+  }
             .table, th {
               background-color: #f2f2f2;
             }
@@ -91,26 +108,44 @@ export function PaymentHistory({enrollmentId}: PaymentHistoryProps) {
               }
                 .flex{
                     display: flex;
-  justify-content: space-between;
+                    justify-content: space-between;
                 }
-  .margin{
-        margin-left:50px;
-        margin-right: 50px;
-  }
+                .center{
+                  display: flex;
+                    justify-content: end;
+                  }
+                .margin{
+                      margin-left:50px;
+                      margin-right: 50px;
+                }
+                      .top{
+                        margin-top:-10px;
+                      }
+                        .width{
+                           width: 30%;
+  margin-left: auto;
+                        }
           </style>
         </head>
         <body>
+        <div class="center">
+          <img src="/nipstec-logo.webp" alt="nipstec logo" height="70px" width="100px"/>
+        </div>
           <h1 class="text-center">Payment Receipt</h1>
            <div class="text-black margin text-center flex">
                
-              <div class="text-bold text-black">Reg. No.:-</div>
-              <div class="text-black">${registerationNumber}</div>
+              <div class="text-bold text-black">Reg. No.:-  ${registerationNumber}</div>
+              <div class="text-black"></div>
             </div>
           <div class="container">
             
-            <div class="grid grid-cols-2 text-center py-2 border-b border-gray-300">
+            
               ${rowContent}
-            </div>
+            
+          </div>
+
+          <div class="container width">
+            <p class="text-bold text-black">Signature: -</p>
           </div>
         </body>
       </html>
@@ -159,44 +194,53 @@ export function PaymentHistory({enrollmentId}: PaymentHistoryProps) {
                 const isToday = paymentDate === today;
 
                 const rowContent = `
-                  <div class=" ${isToday ? "bg-green-100" : ""}">
-                    <div class="grid grid-cols-2 ">
-                        <div class="text-bold flex">Installment Number :-</div>
-                        <div> ${installments.length - index}</div>
-                    </div>
-                    <div class="grid grid-cols-2 ">
-                        <div class="text-bold flex">Receipt Number  :-</div>
-                        <div> ${item.receiptNumber || "N/A"}</div>
-                    </div>
-                    <div class="grid grid-cols-2 ">
-                        <div class="text-bold flex">Amount Paid  :-</div>
-                        <div> ${item.amountPaid || "N/A"}</div>
-                    </div>
-                 
-                    <div class="grid grid-cols-2 ">
-                        <div class="text-bold flex">Trans. Particular  :-</div>
-                        <div> ${item.transParticular || "N/A"}</div>
-                    </div>
-                 
-                    <div class="grid grid-cols-2 ">
-                        <div class="text-bold flex">Mode of Payment  :-</div>
-                        <div> ${item.paymentMode || "N/A"}</div>
-                    </div>
-                    <div class="grid grid-cols-2 ">
-                        <div class="text-bold flex">Method of Payment  :-</div>
-                        <div> ${item.paymentMethod || "N/A"}</div>
-                    </div>
+                 <div class="${isToday ? "bg-green-100" : ""}">
                   
-                    <div class="grid grid-cols-2 ">
-                        <div class="text-bold flex">Due Amount  :-</div>
-                        <div>Rs. ${item.dueAmount || 0}</div>
-                    </div>
-                     <div class="grid grid-cols-2 ">
-                        <div class="text-bold flex">Date and Time  :-</div>
-                        <div> ${
-                          getDate(item.paymentDateTime, "string") || "N/A"
-                        }</div>
-                    </div>
+<table class="table-auto border-collapse border border-gray-300 w-full table-cols">
+  <tbody>
+    <tr class="border-b">
+      <td class="font-bold px-4 py-2">Student Name:</td>
+      <td class="px-4 py-2">${studentName}</td>
+    </tr>
+    <tr class="border-b">
+      <td class="font-bold px-4 py-2">Installment Number:</td>
+      <td class="px-4 py-2">${installments.length - index}</td>
+    </tr>
+    <tr class="border-b">
+      <td class="font-bold px-4 py-2">Receipt Number:</td>
+      <td class="px-4 py-2">${item.receiptNumber || "N/A"}</td>
+    </tr>
+    <tr class="border-b">
+      <td class="font-bold px-4 py-2">Amount Paid:</td>
+      <td class="px-4 py-2">Rs. ${item.amountPaid || "N/A"}</td>
+    </tr>
+    <tr class="border-b">
+      <td class="font-bold px-4 py-2">Trans. Particular:</td>
+      <td class="px-4 py-2">${item.transParticular || "N/A"}</td>
+    </tr>
+    <tr class="border-b">
+      <td class="font-bold px-4 py-2">Mode of Payment:</td>
+      <td class="px-4 py-2">${item.paymentMode || "N/A"}</td>
+    </tr>
+    <tr class="border-b">
+      <td class="font-bold px-4 py-2">Method of Payment:</td>
+      <td class="px-4 py-2">${item.paymentMethod || "N/A"}</td>
+    </tr>
+    <tr class="border-b">
+      <td class="font-bold px-4 py-2">Due Amount:</td>
+      <td class="px-4 py-2">Rs. ${item.dueAmount || 0}</td>
+    </tr>
+    <tr>
+      <td class="font-bold px-4 py-2">Date and Time:</td>
+      <td class="px-4 py-2">${
+        getDate(item.paymentDateTime, "string") || "N/A"
+      }</td>
+    </tr>
+  </tbody>
+</table>
+
+                </div>
+
                 `;
 
                 return (

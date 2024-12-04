@@ -29,6 +29,7 @@ function UserComponent() {
 
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
+  const [totalRecord, setTotalRecord] = useState(0);
 
   // Fetch users based on the student status
   const fetchUser = async () => {

@@ -20,12 +20,14 @@ export const UserTable = ({users, title}: {users: User[]; title: string}) => {
   };
   return (
     <section className="mb-6">
-      <h2
-        className={`text-lg font-bold m-4 ${getStatusClass(
-          title.toUpperCase()
-        )}`}>
-        New {getStatusText(title.toUpperCase())}
-      </h2>
+      <div className="flex justify-between">
+        <h2
+          className={`text-lg font-bold m-4 ${getStatusClass(
+            title.toUpperCase()
+          )}`}>
+          {getStatusText(title.toUpperCase())} {" \t "} Records:- {users.length}
+        </h2>
+      </div>
 
       <div className="m-4">
         <SearchBar
@@ -53,7 +55,7 @@ export const UserTable = ({users, title}: {users: User[]; title: string}) => {
                   ? "Approved Date"
                   : ""}
               </th>
-              <th className="px-4 py-2">Status</th>
+              {/* <th className="px-4 py-2">Status</th> */}
               <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
@@ -76,9 +78,9 @@ export const UserTable = ({users, title}: {users: User[]; title: string}) => {
                           : ""
                       )}
                     </td>
-                    <td className={`px-4 py-2 ${getStatusClass(user.status)}`}>
+                    {/* <td className={`px-4 py-2 ${getStatusClass(user.status)}`}>
                       {getStatusText(user.status)}
-                    </td>
+                    </td> */}
                     <td className="px-4 py-2 space-x-2">
                       <a
                         href={`/students/profile/${user.id}`}

@@ -35,7 +35,7 @@ function PaymentComponent() {
   const [amount, setAmount] = useState(0);
   const [transParticular, setTransParticular] = useState("");
   const [methodOfPayment, setMethodOfPayment] = useState("");
-  const [registerationNumber, setRegisterationNumber] = useState("");
+  const [flag, setFlag] = useState(false);
 
   const searchParams = useSearchParams();
   const dataId = searchParams?.get("studentid");
@@ -137,9 +137,11 @@ function PaymentComponent() {
       }
 
       const result = await res.json();
+      setFlag((prev) => true);
       setMessage("Payment details submitted successfully!");
       setIsSuccess(true);
     } catch (error) {
+      setFlag(false);
       setIsSuccess(true);
       setMessage("Installment amount exceeds balance fee");
     } finally {
@@ -223,7 +225,7 @@ function PaymentComponent() {
           </div>
 
           {enrollment ? (
-            <PaymentHistory enrollmentId={enrollment} />
+            <PaymentHistory enrollmentId={enrollment} flag={flag} />
           ) : (
             <div>No enrollment data found for this student.</div>
           )}

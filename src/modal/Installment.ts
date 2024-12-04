@@ -6,6 +6,7 @@ import {User} from "./User";
 export type Installment = {
   dbEnrollment: {
     registration_number: string;
+    user: User;
   };
   amountPaid: number;
   paymentDateTime: string;
