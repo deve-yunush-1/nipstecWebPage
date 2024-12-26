@@ -163,7 +163,7 @@ export default function ProductForm({productId, onSubmit}: ProductFormProps) {
         </div>
 
         {/* Course Image URL */}
-        <div className="col-span-2">
+        <div className="col-span-2 focus:input:lable">
           <label className="block text-blue-500 mb-2" htmlFor="courseImage">
             Course Image URL
           </label>
@@ -180,6 +180,7 @@ export default function ProductForm({productId, onSubmit}: ProductFormProps) {
         {/* Submit Button */}
         <div className="col-span-2">
           <button
+            disabled={isLoading}
             type="submit"
             className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600">
             {isLoading

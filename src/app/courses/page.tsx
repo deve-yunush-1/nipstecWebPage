@@ -56,7 +56,7 @@ function ProductsPage() {
           {/* Category filter buttons */}
           <Link
             href="/courses?category=english"
-            className={`rounded-lg z-50 ${
+            className={`rounded-lg ${
               category.toLowerCase() === "english"
                 ? "text-green-600 bg-white"
                 : "text-gray-600"
@@ -72,7 +72,7 @@ function ProductsPage() {
           </Link>
           <Link
             href="/courses?category=computer"
-            className={` rounded-lg z-50 ${
+            className={` rounded-lg ${
               category.toLowerCase() === "computer"
                 ? "text-green-600 bg-white"
                 : "text-gray-600"
@@ -88,7 +88,7 @@ function ProductsPage() {
           </Link>
           <Link
             href="/courses?category=others"
-            className={` rounded-lg z-50 ${
+            className={` rounded-lg  ${
               category.toLowerCase() === "others"
                 ? "text-green-600 bg-white"
                 : "text-gray-600"

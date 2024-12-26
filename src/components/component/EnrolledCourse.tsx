@@ -9,7 +9,7 @@ export const EnrolledCourse = ({studentId}: {studentId: string}) => {
       const response = await fetchStudentData(studentId);
     };
     fetchEnrolledCourses();
-  });
+  }, []);
 };
 
 async function fetchStudentData(studentId: string) {

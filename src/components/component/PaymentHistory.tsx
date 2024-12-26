@@ -195,53 +195,59 @@ export function PaymentHistory({enrollmentId, flag}: PaymentHistoryProps) {
 
                 const rowContent = `
                  <div class="${isToday ? "bg-green-100" : ""}">
-                  
-<table class="table-auto border-collapse border border-gray-300 w-full table-cols">
-  <tbody>
-    <tr class="border-b">
-      <td class="font-bold px-4 py-2">Student Name:</td>
-      <td class="px-4 py-2">${studentName}</td>
-    </tr>
-    <tr class="border-b">
-      <td class="font-bold px-4 py-2">Installment Number:</td>
-      <td class="px-4 py-2">${installments.length - index}</td>
-    </tr>
-    <tr class="border-b">
-      <td class="font-bold px-4 py-2">Receipt Number:</td>
-      <td class="px-4 py-2">${item.receiptNumber || "N/A"}</td>
-    </tr>
-    <tr class="border-b">
-      <td class="font-bold px-4 py-2">Amount Paid:</td>
-      <td class="px-4 py-2">Rs. ${item.amountPaid || "N/A"}</td>
-    </tr>
-    <tr class="border-b">
-      <td class="font-bold px-4 py-2">Trans. Particular:</td>
-      <td class="px-4 py-2">${item.transParticular || "N/A"}</td>
-    </tr>
-    <tr class="border-b">
-      <td class="font-bold px-4 py-2">Mode of Payment:</td>
-      <td class="px-4 py-2">${item.paymentMode || "N/A"}</td>
-    </tr>
-    <tr class="border-b">
-      <td class="font-bold px-4 py-2">Method of Payment:</td>
-      <td class="px-4 py-2">${item.paymentMethod || "N/A"}</td>
-    </tr>
-    <tr class="border-b">
-      <td class="font-bold px-4 py-2">Due Amount:</td>
-      <td class="px-4 py-2">Rs. ${item.dueAmount || 0}</td>
-    </tr>
-    <tr>
-      <td class="font-bold px-4 py-2">Date and Time:</td>
-      <td class="px-4 py-2">${
-        getDate(item.paymentDateTime, "string") || "N/A"
-      }</td>
-    </tr>
-  </tbody>
-</table>
-
-                </div>
-
-                `;
+                  <table class="table-auto border-collapse border border-gray-300 w-full table-cols">
+                    <tbody>
+                      <tr class="border-b">
+                        <td class="font-bold px-4 py-2">Student Name:</td>
+                        <td class="px-4 py-2">${studentName}</td>
+                      </tr>
+                      <tr class="border-b">
+                        <td class="font-bold px-4 py-2">Installment Number:</td>
+                        <td class="px-4 py-2">${
+                          installments.length - index
+                        }</td>
+                      </tr>
+                      <tr class="border-b">
+                        <td class="font-bold px-4 py-2">Receipt Number:</td>
+                        <td class="px-4 py-2">${
+                          item.receiptNumber || "N/A"
+                        }</td>
+                      </tr>
+                      <tr class="border-b">
+                        <td class="font-bold px-4 py-2">Amount Paid:</td>
+                        <td class="px-4 py-2">Rs. ${
+                          item.amountPaid || "N/A"
+                        }</td>
+                      </tr>
+                      <tr class="border-b">
+                        <td class="font-bold px-4 py-2">Trans. Particular:</td>
+                        <td class="px-4 py-2">${
+                          item.transParticular || "N/A"
+                        }</td>
+                      </tr>
+                      <tr class="border-b">
+                        <td class="font-bold px-4 py-2">Mode of Payment:</td>
+                        <td class="px-4 py-2">${item.paymentMode || "N/A"}</td>
+                      </tr>
+                      <tr class="border-b">
+                        <td class="font-bold px-4 py-2">Method of Payment:</td>
+                        <td class="px-4 py-2">${
+                          item.paymentMethod || "N/A"
+                        }</td>
+                      </tr>
+                      <tr class="border-b">
+                        <td class="font-bold px-4 py-2">Due Amount:</td>
+                        <td class="px-4 py-2">Rs. ${item.dueAmount || 0}</td>
+                      </tr>
+                      <tr>
+                        <td class="font-bold px-4 py-2">Date and Time:</td>
+                        <td class="px-4 py-2">${
+                          getDate(item.paymentDateTime, "string") || "N/A"
+                        }</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>`;
 
                 return (
                   <div

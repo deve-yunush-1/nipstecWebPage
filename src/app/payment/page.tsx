@@ -26,11 +26,11 @@ function PaymentComponent() {
     date: new Date().toISOString().slice(0, 10), // Default to today's date
   });
   const [loadingSearching, setLoadingSearching] = useState(false);
+  const [enrollment, setEnrollment] = useState(null);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [loadingStudentData, setLoadingStudentData] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
   const [message, setMessage] = useState("");
-  const [enrollment, setEnrollment] = useState(null);
   const [modeOfPayment, setModeOfPayment] = useState("");
   const [amount, setAmount] = useState(0);
   const [transParticular, setTransParticular] = useState("");
@@ -182,7 +182,7 @@ function PaymentComponent() {
       <Navbar />
       <div className="flex mt-[100px] justify-center items-center min-w-screen">
         <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6">
-          <form className="mb-6" onSubmit={handleSearch}>
+          {/* <form className="mb-6" onSubmit={handleSearch}>
             <label
               htmlFor="query"
               className="block text-lg font-medium text-gray-700">
@@ -203,7 +203,7 @@ function PaymentComponent() {
                 {loadingSearching ? "Searching..." : "Search"}
               </button>
             </div>
-          </form>
+          </form> */}
 
           <div className="flex justify-between">
             <div className="font-bold text-2xl mb-2 text-blue-500">
