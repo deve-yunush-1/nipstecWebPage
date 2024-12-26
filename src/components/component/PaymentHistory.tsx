@@ -38,11 +38,6 @@ export function PaymentHistory({enrollmentId, flag}: PaymentHistoryProps) {
       const data = await response.json();
 
       setRegisterationNumber(data[0].dbEnrollment.registration_number);
-      console.log(
-        data[0].dbEnrollment.user.firstName +
-          " " +
-          data[0].dbEnrollment.user.lastName
-      );
       setStudentName(
         data[0].dbEnrollment.user.firstName +
           " " +

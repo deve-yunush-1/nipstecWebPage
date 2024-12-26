@@ -20,7 +20,6 @@ interface Allocation {
   day: string;
   duration: number;
   userId: string;
-  courseId: number;
 }
 
 interface FormData {
@@ -30,7 +29,7 @@ interface FormData {
   day: string;
   employee: string | null;
   employeeId: number;
-  courseId: "";
+  courseId: number;
 }
 interface StudentStatus {
   [userId: number]: {
@@ -48,12 +47,12 @@ const AllocatedStudents: React.FC = () => {
     time: "",
     day: "",
     employee: "",
-    courseId: "",
+    courseId: 0,
     employeeId: 0,
   });
 
   const [allocations, setAllocations] = useState<Allocation[]>([]);
-  const [studentStatus, setStudentStatus] = useState<StudentStatus>({});
+  const [studentStatus, setStudentStatus] = useState<StudentStatus[]>([]);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [userId, setUserId] = useState([]);
@@ -79,11 +78,13 @@ const AllocatedStudents: React.FC = () => {
       const updatedStatuses = {...prev};
 
       // Update the current student's status to present
-      studentStatus[allocation.id] = {
-        userId: allocation.userId,
-        isPresent: true,
-        courseId: allocation.courseId,
-      };
+      studentStatus[Number(allocation.id)] = [
+        {
+          userId: Number(allocation.userId),
+          isPresent: true,
+          courseId: formData.courseId,
+        },
+      ];
       console.log(updatedStatuses);
 
       return updatedStatuses;
@@ -145,9 +146,12 @@ const AllocatedStudents: React.FC = () => {
           ...prev,
           courseId: item.product.id,
         }));
-        setStudentStatus((prev) => [
-          {userId: item.user.id, isPresent: false}, // Add `isPresent: true` for each student
-        ]);
+        setStudentStatus((prev) => ({
+          ...prev,
+          userId: item.user.id,
+          isPresent: false,
+          courseId: item.product.id,
+        }));
       });
       let allocation: Allocation[] = value.map(
         (
@@ -259,73 +263,6 @@ const AllocatedStudents: React.FC = () => {
       )}
     </>
   );
-};
-
-function SelectField({
-  id,
-  label,
-  value,
-  options,
-  onChange,
-}: {
-  id: any;
-  label: any;
-  options: any;
-  value: any;
-  onChange: any;
-}) {
-  return (
-    <div>
-      <label htmlFor={id} className="block font-medium text-gray-700">
-        {label}
-      </label>
-      <select
-        id={id}
-        value={value}
-        onChange={onChange}
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-        <option value="" disabled>
-          Select an option
-        </option>
-        {options.map((opt: {value: any; label: any; courseId: string}) => (
-          <option
-            key={`${opt.value}`}
-            data-product-id={opt.courseId}
-            value={`${opt.value}`}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-}
-
-const duration = (time: string) => {
-  const currentDate = new Date();
-
-  // Step 2: Split the allocation time (e.g., '10:00') into hours and minutes
-  const [hours, minutes] = time.split(":");
-
-  // Step 3: Create the start time (use the current date for the day, but set the specific time)
-  const startTime = new Date();
-  startTime.setHours(Number(hours), Number(minutes), 0, 0); // Set the hours, minutes, and reset seconds/milliseconds
-
-  // Step 4: Calculate the duration between current time and start time in milliseconds
-  const durationInMilliseconds: number = +currentDate - +startTime; // Using '+' to force conversion to number
-
-  // Step 5: Convert milliseconds to more readable format (e.g., hours, minutes)
-  const durationInMinutes: number = Math.floor(
-    durationInMilliseconds / (1000 * 60)
-  ); // Duration in minutes
-  const durationInHours: number = Math.floor(durationInMinutes / 60); // Duration in hours
-  const remainingMinutes: number = durationInMinutes % 60; // Remaining minutes
-
-  return durationInHours;
-};
-
-const getEmployee = async () => {
-  const response = (await fetch(`${DB_URL()}/employee/role?r=teacher`)).json();
-  return response;
 };
 
 export default function Page() {

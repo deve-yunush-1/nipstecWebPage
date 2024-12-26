@@ -4,7 +4,7 @@ import {DB_URL} from "@/modal/db_url";
 
 interface StudentAttendanceMark {
   user: StudentStatus[];
-  courseId: string;
+  courseId: number;
   startTime: string;
   endTime: string;
 }
@@ -12,6 +12,7 @@ interface StudentAttendanceMark {
 export type StudentStatus = {
   userId: number;
   isPresent: boolean;
+  courseId: number;
 };
 
 export const addStudentAttendanceByTeacher = async ({

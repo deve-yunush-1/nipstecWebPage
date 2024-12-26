@@ -2,8 +2,8 @@
 "use client";
 import SideNav from "@/app/Navbar";
 import {DB_URL} from "@/modal/db_url";
-import {User} from "@/modal/User";
-import React, {Suspense, use, useEffect, useState} from "react";
+import {Identity, UserAddress} from "@/modal/User";
+import React, {Suspense, useEffect, useState} from "react";
 import {useParams} from "next/navigation";
 import Loading from "@/components/component/loading";
 import Image from "next/image";
@@ -13,6 +13,24 @@ import {DbEnrollment} from "@/modal/Installment";
 import {userDataById} from "@/service/userByuserId";
 
 // This is the main page component that is SSR
+interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  dob: string;
+  gender: string;
+  status: string;
+  registration_number: string;
+  qualification: string;
+  password: string;
+  identification: Identity;
+  address: UserAddress;
+  createdAt: string;
+  approvedAt: string;
+  updatedAt: string;
+}
 function UserProfile() {
   // Wait for params to resolve
   const params = useParams();
@@ -67,8 +85,9 @@ function UserProfile() {
         <div className="max-w-6xl mx-auto bg-white shadow-md rounded-lg">
           <div className="border-b p-4">
             <h2 className="text-3xl font-bold text-gray-800">
-              {<CapitalizeFirstLetter text={user.firstName} /> + " " +
-              <CapitalizeFirstLetter text={user.lastName} />}
+              <CapitalizeFirstLetter
+                text={user.firstName + " " + user.lastName}
+              />
             </h2>
             <p
               className={`mt-2 p-2 inline-block rounded-lg ${getStatusClass(
@@ -84,8 +103,9 @@ function UserProfile() {
               <div className="flex justify-between">
                 <span className="font-semibold">Name:</span>
                 <span className="text-gray-700">
-                  {<CapitalizeFirstLetter text={user.firstName} /> + " " +
-                  <CapitalizeFirstLetter text={user.lastName} />}
+                  <CapitalizeFirstLetter
+                    text={user.firstName + " " + user.lastName}
+                  />
                 </span>
               </div>
               <div className="flex justify-between">
@@ -176,9 +196,7 @@ function UserProfile() {
               <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-3 max-sm:grid-cols-1 sm:grid-cols-1 sm:grid-center gap-6">
                 {enrolled.length > 0 ? (
                   enrolled.map((enroll: DbEnrollment) => (
-                    <div
-                      key={enroll.id}
-                      className="relative flex flex-col items-left border border-gray-300 p-4 rounded-lg shadow hover:shadow-lg hover:border-blue-500 transition">
+                    <div className="relative flex flex-col items-left border border-gray-300 p-4 rounded-lg shadow hover:shadow-lg hover:border-blue-500 transition">
                       <div className="border-2 border-blue-300 rounded-md">
                         <Image
                           src={enroll.product.imageUri} // 1920 x 1080

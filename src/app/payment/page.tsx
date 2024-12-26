@@ -25,7 +25,7 @@ function PaymentComponent() {
     receiptNumber: "",
     date: new Date().toISOString().slice(0, 10), // Default to today's date
   });
-  const [loadingSearching, setLoadingSearching] = useState(false);
+
   const [enrollment, setEnrollment] = useState(null);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [loadingStudentData, setLoadingStudentData] = useState(true);
@@ -98,7 +98,6 @@ function PaymentComponent() {
       return;
     }
 
-    setLoadingSearching(true);
     try {
       const res = await fetch(
         `${DB_URL()}/user/search?query=${encodeURIComponent(formData.query)}`
@@ -106,8 +105,6 @@ function PaymentComponent() {
       const data = await res.json();
     } catch (error) {
       console.error("Error searching data:", error);
-    } finally {
-      setLoadingSearching(false);
     }
   };
 
@@ -136,9 +133,9 @@ function PaymentComponent() {
         throw new Error("Failed to submit the form.");
       }
 
-      const result = await res.json();
+      const {message} = await res.json();
       setFlag((prev) => true);
-      setMessage("Payment details submitted successfully!");
+      setMessage(`Payment details submitted successfully!`);
       setIsSuccess(true);
     } catch (error) {
       setFlag(false);
@@ -154,7 +151,6 @@ function PaymentComponent() {
   };
 
   const fetchPaymentHistory = (e: any) => {
-    setLoadingSearching(true);
     setEnrollment(e);
   };
   const mode: ModeOfPayment = (modeOfPayment || "bank") as ModeOfPayment;
@@ -278,6 +274,7 @@ function PaymentComponent() {
 
             <button
               type="submit"
+              disabled={loadingSubmit}
               className="w-full bg-blue-600 text-white font-medium py-2 rounded-md hover:bg-blue-700">
               {loadingSubmit ? "Submitting..." : "Submit"}
             </button>

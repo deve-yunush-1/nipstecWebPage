@@ -18,7 +18,7 @@ export type User = {
   approvedAt: string;
   updatedAt: string;
 };
-type Identity = {
+export type Identity = {
   number: string;
   identityCard: string;
 };

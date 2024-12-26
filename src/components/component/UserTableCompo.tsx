@@ -66,7 +66,7 @@ export const UserTable = ({users, title}: {users: User[]; title: string}) => {
                     <td className="px-4 py-2">{`${user.firstName} ${user.lastName}`}</td>
                     <td className="px-4 py-2">{user.email}</td>
                     <td className="px-4 py-2">{user.phone}</td>
-                    <td className="px-4 py-2">{user.registrationNumber}</td>
+                    <td className="px-4 py-2">{user.registration_number}</td>
                     <td className="px-4 py-2">
                       {formatDate(
                         title === "complete"
