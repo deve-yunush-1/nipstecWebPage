@@ -109,6 +109,18 @@ export const UserTable = ({users, title}: {users: User[]; title: string}) => {
                     ) : (
                       ""
                     )}
+                    {user.status.toLocaleLowerCase() === "complete" ? (
+                      <td>
+                        <Link
+                          href={`/attendance/student-allocation?studentid=${user.id}`}>
+                          <button className="px-3 py-1 gap-2 bg-blue-500 rounded-md hover:bg-blue:600 text-white">
+                            Allocate
+                          </button>
+                        </Link>
+                      </td>
+                    ) : (
+                      ""
+                    )}
                   </tr>
                 ))
               : ""}
@@ -120,6 +132,16 @@ export const UserTable = ({users, title}: {users: User[]; title: string}) => {
 };
 
 // Utility Functions
+function StudentApproveWithin15days(dateString: string) {
+  const date = new Date(dateString);
+  const today = new Date();
+  const fifteenDaysAgo = new Date(today.getTime() - 15 * 24 * 60 * 60 * 1000);
+  if (date > fifteenDaysAgo) {
+    return true;
+  }
+  return false;
+}
+
 function formatDate(dateString: string) {
   const date = new Date(dateString);
   return date.toLocaleDateString("en-US", {

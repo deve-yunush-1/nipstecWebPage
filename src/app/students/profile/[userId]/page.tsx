@@ -3,19 +3,40 @@
 import SideNav from "@/app/Navbar";
 import {DB_URL} from "@/modal/db_url";
 import {User} from "@/modal/User";
-import React, {Suspense} from "react";
+import React, {Suspense, use, useEffect, useState} from "react";
 import {useParams} from "next/navigation";
 import Loading from "@/components/component/loading";
+import Image from "next/image";
+import {CourseTitle} from "@/components/component/ProductGrid";
+import {CapitalizeFirstLetter} from "@/components/ui/CapitaliseText";
+import {DbEnrollment} from "@/modal/Installment";
+import {userDataById} from "@/service/userByuserId";
 
 // This is the main page component that is SSR
-async function UserProfile() {
+function UserProfile() {
   // Wait for params to resolve
   const params = useParams();
   const userId = params?.userId; // Await params before accessing userId
+  const [enrolled, setEnrolled] = useState([]);
+  const [user, setUser] = useState<User>({});
 
   // Fetch user data from your backend API
-  const res = await fetch(`${DB_URL()}/user/id/?userId=${userId}`);
-  const user: User = await res.json();
+
+  // If user data is fetched, update the component state
+  useEffect(() => {
+    const enroll = async () => {
+      userDataById(userId).then((data: User) => {
+        setUser(data);
+
+        setEnrolled(enrolled);
+      });
+
+      const enroll = await fetchStudentData(user.id);
+
+      setEnrolled(enroll);
+    };
+    enroll();
+  });
 
   // Function to get the status class based on user status
   const getStatusClass = (status: string) => {
@@ -46,9 +67,8 @@ async function UserProfile() {
         <div className="max-w-6xl mx-auto bg-white shadow-md rounded-lg">
           <div className="border-b p-4">
             <h2 className="text-3xl font-bold text-gray-800">
-              {capitalizeFirstLetter(user.firstName) +
-                " " +
-                capitalizeFirstLetter(user.lastName)}
+              {<CapitalizeFirstLetter text={user.firstName} /> + " " +
+              <CapitalizeFirstLetter text={user.lastName} />}
             </h2>
             <p
               className={`mt-2 p-2 inline-block rounded-lg ${getStatusClass(
@@ -64,9 +84,8 @@ async function UserProfile() {
               <div className="flex justify-between">
                 <span className="font-semibold">Name:</span>
                 <span className="text-gray-700">
-                  {capitalizeFirstLetter(user.firstName) +
-                    " " +
-                    capitalizeFirstLetter(user.lastName)}
+                  {<CapitalizeFirstLetter text={user.firstName} /> + " " +
+                  <CapitalizeFirstLetter text={user.lastName} />}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -88,6 +107,12 @@ async function UserProfile() {
               <div className="flex justify-between">
                 <span className="font-semibold">Qualification:</span>
                 <span className="text-gray-700">{user.qualification}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-semibold">Registration:</span>
+                <span className="text-gray-700">
+                  {user.registration_number}
+                </span>
               </div>
             </div>
 
@@ -144,6 +169,49 @@ async function UserProfile() {
                 )}
               </div>
             </div>
+            <span className="text-4xl font-bold text-underline text-blue-500 right">
+              Enrolle Course
+            </span>
+            <div className="">
+              <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-3 max-sm:grid-cols-1 sm:grid-cols-1 sm:grid-center gap-6">
+                {enrolled.length > 0 ? (
+                  enrolled.map((enroll: DbEnrollment) => (
+                    <div
+                      key={enroll.id}
+                      className="relative flex flex-col items-left border border-gray-300 p-4 rounded-lg shadow hover:shadow-lg hover:border-blue-500 transition">
+                      <div className="border-2 border-blue-300 rounded-md">
+                        <Image
+                          src={enroll.product.imageUri} // 1920 x 1080
+                          alt={enroll.product.title}
+                          width={200}
+                          loading="lazy"
+                          placeholder="blur"
+                          blurDataURL="https://placehold.co/1920x1080"
+                          height={200}
+                          className="h-40 w-full flex justify-center rounded-md"
+                        />
+                      </div>
+
+                      <CourseTitle
+                        title={enroll.product.title}
+                        className={`mt-2 h-50`}
+                      />
+
+                      <div className="mt-3 bottom-4 flex justify-between w-full">
+                        <p className="text-md font-bold text-gray-700">
+                          ₹ {enroll.product.price}
+                        </p>
+                        <p className="text-md font-bold text-gray-700">
+                          Duration: {enroll.product.duration} hr.
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div>No course available in this category</div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </main>
@@ -168,10 +236,21 @@ interface AddressDetails {
   nationality?: string;
 }
 
-// Helper function to capitalize the first letter of each word
-function capitalizeFirstLetter(string: string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+async function fetchStudentData(studentId: string) {
+  try {
+    const res = await fetch(
+      `${DB_URL()}/user/purchase/userid?userId=${studentId}`
+    );
+    if (!res.ok) throw new Error("Failed to fetch student data.");
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching student data:", error);
+    throw error;
+  }
 }
+
+// Helper function to capitalize the first letter of each word
 
 export default function Page() {
   return (

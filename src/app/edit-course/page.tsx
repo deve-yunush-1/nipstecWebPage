@@ -35,15 +35,14 @@ const EditCoursePage = () => {
         const {message} = await res.json();
         if (message === "success") {
           setIsSuccess(true);
+          setMessage(message);
           location.href = "/courses?category=computer";
         }
         setErr(message);
       })
       .catch((err) => {
         if (err) setErr(err?.message);
-        console.error(err?.message);
       });
-    console.log("Course added:", courseData);
   };
   const handleCloseButton = () => {
     setIsSuccess(false);
@@ -60,7 +59,7 @@ const EditCoursePage = () => {
         isOpen={isSuccess}
         onClose={handleCloseButton}
         message={message}
-        title={`Payment Alert`}
+        title={`Course Update successfully`}
       />
       <div className="w-full max-h-lg mx-auto mt-10 pt-[150px] bg-white shadow-lg rounded-lg">
         <ProductForm onSubmit={handleAddCourse} productId={courseId} />

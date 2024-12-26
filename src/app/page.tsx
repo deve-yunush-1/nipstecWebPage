@@ -2,14 +2,13 @@
 
 "use client";
 
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Link from "next/link";
 import Navbar from "./Navbar";
 import Image from "next/image";
-import {Notifications, useWebSocket} from "@/hooks/useWebSocket";
-import NotificationCompo from "@/components/ui/NotificationCompo";
-import {Notify} from "@/components/ui/Notift";
+import {useWebSocket} from "@/hooks/useWebSocket";
 import {notification_url} from "@/modal/db_url";
+
 // Mock data for labels and carousel images
 const LabelList = [
   {
@@ -57,7 +56,7 @@ const LabelList = [
   },
   {
     title: "Attendance",
-    link: "/",
+    link: "/attendance/student-attendance",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +75,7 @@ const LabelList = [
   },
   {
     title: "Class allocation",
-    link: "/",
+    link: "/attendance/student-allocation",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +133,9 @@ function DashboardCard({
     <Link href={link}>
       <div className="flex flex-col justify-center items-center w-full h-43 bg-white shadow-lg rounded-lg p-4 hover:shadow-2xl hover:scale-105 transition-transform duration-200">
         {icon}
-        <h3 className="mt-4 text-lg font-semibold text-gray-700">{title}</h3>
+        <span className="mt-4 text-lg font-semibold text-gray-700">
+          {title}
+        </span>
       </div>
     </Link>
   );
@@ -197,6 +198,7 @@ export default function Page() {
       <header className="">
         <Navbar />
       </header>
+
       <main className="mt-[70px] bg-gray-100 min-h-screen">
         <section className="">
           <Carousel images={imageList} />
