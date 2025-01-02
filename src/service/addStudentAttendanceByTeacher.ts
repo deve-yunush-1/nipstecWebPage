@@ -4,7 +4,6 @@ import {DB_URL} from "@/modal/db_url";
 
 interface StudentAttendanceMark {
   user: StudentStatus[];
-  courseId: number;
   startTime: string;
   endTime: string;
 }
@@ -17,14 +16,12 @@ export type StudentStatus = {
 
 export const addStudentAttendanceByTeacher = async ({
   user,
-  courseId,
   startTime,
   endTime,
 }: StudentAttendanceMark) => {
   try {
     let dataa = {
       user: user,
-      courseId: courseId,
       startTime: startTime,
       endTime: endTime,
     };

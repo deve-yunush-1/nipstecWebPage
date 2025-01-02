@@ -10,16 +10,21 @@ import {DB_URL} from "@/modal/db_url";
 import {Schedule} from "@/modal/Schedule";
 import React, {Suspense, useEffect, useState} from "react";
 import {getScheduleCurrentTimeAndDate} from "@/service/getScheduleByEmployee";
-import {addStudentAttendanceByTeacher} from "@/service/addStudentAttendanceByTeacher";
+import {
+  addStudentAttendanceByTeacher,
+  StudentStatus,
+} from "@/service/addStudentAttendanceByTeacher";
+import withAuth from "@/app/hoc/withAuth";
 
 interface Allocation {
   id: string; // Unique identifier for each allocation
   studentName: string;
   course: string;
+  courseId: any;
   time: string;
   day: string;
   duration: number;
-  userId: string;
+  userId: any;
 }
 
 interface FormData {
@@ -30,13 +35,6 @@ interface FormData {
   employee: string | null;
   employeeId: number;
   courseId: number;
-}
-interface StudentStatus {
-  [userId: number]: {
-    userId: number;
-    isPresent: boolean;
-    courseId: number;
-  };
 }
 
 const AllocatedStudents: React.FC = () => {
@@ -73,22 +71,35 @@ const AllocatedStudents: React.FC = () => {
       ...prev,
       [allocation.id]: allocation.id,
     }));
-    setStudentStatus((prev) => {
-      // Ensure all students are initialized as absent
-      const updatedStatuses = {...prev};
+    setStudentStatus(
+      (prev: {userId: any; isPresent: boolean; courseId: any}[]) => {
+        // Create a shallow copy of the previous state
+        const updatedStatuses = [...prev];
 
-      // Update the current student's status to present
-      studentStatus[Number(allocation.id)] = [
-        {
-          userId: Number(allocation.userId),
-          isPresent: true,
-          courseId: formData.courseId,
-        },
-      ];
-      console.log(updatedStatuses);
+        // Find the index of the student with the given userId
+        const index = updatedStatuses.findIndex(
+          (status) => status.userId === allocation.userId
+        );
 
-      return updatedStatuses;
-    });
+        if (index > -1) {
+          // Update the existing status
+          updatedStatuses[index] = {
+            ...updatedStatuses[index], // Preserve other existing properties
+            isPresent: true, // Update the presence status
+            courseId: allocation.courseId, // Ensure courseId comes from allocation or another correct source
+          };
+        } else {
+          // If the userId does not exist, add a new status
+          updatedStatuses.push({
+            userId: allocation.userId,
+            isPresent: true,
+            courseId: allocation.courseId,
+          });
+        }
+
+        return updatedStatuses; // Return the updated state
+      }
+    );
 
     const currentTime = new Date();
     const currentTimeStatus =
@@ -104,7 +115,6 @@ const AllocatedStudents: React.FC = () => {
   const markAttendance = () => {
     addStudentAttendanceByTeacher({
       user: studentStatus,
-      courseId: formData.courseId,
       endTime,
       startTime,
     }).then((value) => {
@@ -117,67 +127,88 @@ const AllocatedStudents: React.FC = () => {
 
     setTimeout(() => {
       setVisible(false);
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
     }, time);
 
-    if (localStorage.getItem("token")! != null) {
+    if (sessionStorage.getItem("token") != null) {
       setVisible(true);
       handleScheduleStudent();
     }
   }, []);
 
-  const handleLogin = (userData: any) => {
+  const handleLogin = (
+    message: any,
+    object: {employeeId: any; firstname: any; lastname: any},
+    token: any
+  ) => {
     setFormData((prev) => ({
       ...prev,
-      employeeId: userData.employeeId,
-      employee:
-        userData.object.firstname + " " + userData.object.lastname || "",
+      employeeId: object.employeeId,
+      employee: object.firstname + " " + object.lastname || "",
     }));
+
     // You can save the token in localStorage or perform other actions
-    localStorage.setItem("token", userData.token);
+    sessionStorage.setItem("token", token);
     setVisible(true);
     handleScheduleStudent();
   };
 
-  const handleScheduleStudent = () => {
-    getScheduleCurrentTimeAndDate().then((value) => {
-      value.map((item: {user: {id: any}; product: {id: any}}) => {
-        setFormData((prev) => ({
-          ...prev,
-          courseId: item.product.id,
-        }));
-        setStudentStatus((prev) => ({
-          ...prev,
+  const handleScheduleStudent = async (): Promise<void> => {
+    try {
+      const value = await getScheduleCurrentTimeAndDate();
+
+      // Prepare updated form data and student status
+      const updatedFormData: {courseId?: any} = {};
+      const updatedStudentStatus: {
+        userId: any;
+        isPresent: boolean;
+        courseId: any;
+      }[] = [];
+
+      value.forEach((item: {user: {id: any}; product: {id: any}}) => {
+        updatedFormData["courseId"] = item.product.id;
+        updatedStudentStatus.push({
           userId: item.user.id,
           isPresent: false,
           courseId: item.product.id,
-        }));
+        });
       });
-      let allocation: Allocation[] = value.map(
-        (
-          item: {
-            id: number;
-            user: {id: any; firstName: string; lastName: string};
-            product: {title: any};
-            time: any;
-            dayOfWeek: any;
-            duration: any;
-          },
-          index: any
-        ) => {
-          return {
-            id: item.id,
-            studentName: item.user.firstName + " " + item.user.lastName,
-            course: item.product.title,
-            time: item.time,
-            day: item.dayOfWeek,
-            duration: item.duration,
-            userId: item.user.id,
-          };
-        }
+
+      // Update form data
+      setFormData((prev) => ({
+        ...prev,
+        ...updatedFormData,
+      }));
+
+      // Update student status
+      setStudentStatus((prev) => [...prev, ...updatedStudentStatus]);
+
+      // Prepare allocation data
+      const allocations: Allocation[] = value.map(
+        (item: {
+          id: number;
+          user: {id: any; firstName: string; lastName: string};
+          product: {id: any; title: string};
+          time: string;
+          dayOfWeek: string;
+          duration: string;
+        }) => ({
+          id: item.id,
+          studentName: `${item.user.firstName} ${item.user.lastName}`,
+          course: item.product.title,
+          courseId: item.product.id,
+          time: item.time,
+          day: item.dayOfWeek,
+          duration: item.duration,
+          userId: item.user.id,
+        })
       );
-      setAllocations(allocation);
-    });
+
+      // Update allocations
+      setAllocations(allocations);
+    } catch (error) {
+      console.error("Error scheduling students:", error);
+    }
   };
 
   return (

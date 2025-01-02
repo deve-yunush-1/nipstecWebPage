@@ -5,6 +5,7 @@ import Link from "next/link";
 import ApproveModal from "./Approvel";
 import {User} from "@/modal/User";
 import SearchBar from "./SearchBarComponet";
+import {CapitalizeFirstLetter} from "../ui/CapitaliseText";
 
 export const UserTable = ({users, title}: {users: User[]; title: string}) => {
   const [filteredProducts, setFilteredProducts] = useState<User[]>(users);
@@ -63,7 +64,11 @@ export const UserTable = ({users, title}: {users: User[]; title: string}) => {
             {filteredProducts.length > 0
               ? filteredProducts.map((user: User) => (
                   <tr key={user.id} className="border-t">
-                    <td className="px-4 py-2">{`${user.firstName} ${user.lastName}`}</td>
+                    <td className="px-4 py-2">
+                      <CapitalizeFirstLetter
+                        text={user.firstName + " " + user.lastName}
+                      />
+                    </td>
                     <td className="px-4 py-2">{user.email}</td>
                     <td className="px-4 py-2">{user.phone}</td>
                     <td className="px-4 py-2">{user.registration_number}</td>

@@ -14,8 +14,8 @@ interface Product {
 }
 
 export default function ProductsGrid({products}: {products: Product[]}) {
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
 
   // Handle checkbox change
   const handleCheckboxChange = useCallback((productId: string) => {
@@ -130,7 +130,7 @@ export const CourseTitle = ({
   </div>
 );
 
-const SelectItem = ({
+export const SelectItem = ({
   selectedProducts,
   product,
   handleCheckboxChange,
@@ -148,11 +148,6 @@ const SelectItem = ({
         onChange={() => handleCheckboxChange(product.id!)}
         className="mr-2 w-5 h-5 mb-2"
       />
-      {/* <label
-                  htmlFor={`product-${product.id}`}
-                  className="text-gray-700">
-                  Select
-                </label> */}
     </div>
   );
 };

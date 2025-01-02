@@ -10,7 +10,13 @@ interface AuthContextType {
   setToken: (token: string) => void;
 }
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthContext = createContext<AuthContextType>({
+  user: undefined,
+  token: null,
+  setToken: function (token: string): void {
+    throw new Error("Function not implemented.");
+  },
+});
 
 export const AuthProvider = ({children}: {children: ReactNode}) => {
   const [user, setUser] = useState<any>(null);
@@ -22,7 +28,6 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
     if (storedToken) {
       const decoded = verifyToken(storedToken);
       if (decoded) {
-        const {id, userType} = decoded;
         getEmployee()
           .then((data) => setUser(data))
           .catch((error) => console.error("Error fetching employee:", error));
@@ -34,9 +39,6 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
   }, [token]);
 
   return (
-    // <AuthContex.Provider value={{user, token, setToken}}>
-    //       {children}
-    //     </AuthContext.Provider>
     <AuthContext.Provider value={{user, token, setToken}}>
       {children}
     </AuthContext.Provider>
