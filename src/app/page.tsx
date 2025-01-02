@@ -12,6 +12,89 @@ import {notification_url} from "@/modal/db_url";
 // Mock data for labels and carousel images
 const LabelList = [
   {
+    title: "Allocate Holiday list",
+    link: "/holiday",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 200 200"
+        width="50"
+        height="50">
+        <rect
+          x="10"
+          y="10"
+          width="180"
+          height="180"
+          rx="15"
+          fill="#f3f4f6"
+          stroke="#d1d5db"
+          stroke-width="2"
+        />
+
+        <rect x="10" y="10" width="180" height="40" rx="10" fill="#3b82f6" />
+        <text
+          x="100"
+          y="35"
+          fill="#fff"
+          font-size="16"
+          font-family="Arial, sans-serif"
+          text-anchor="middle">
+          Holiday Planner
+        </text>
+
+        <g fill="#e5e7eb" stroke="#d1d5db" stroke-width="1">
+          <rect x="20" y="60" width="10" height="10" />
+          <rect x="70" y="60" width="10" height="10" />
+          <rect x="120" y="60" width="10" height="10" />
+          <rect x="20" y="110" width="10" height="10" />
+          <rect x="70" y="110" width="10" height="10" />
+          <rect x="120" y="110" width="10" height="10" />
+        </g>
+
+        <rect x="70" y="110" width="40" height="40" fill="#10b981" />
+        <text
+          x="90"
+          y="135"
+          fill="#fff"
+          font-size="14"
+          font-family="Arial, sans-serif"
+          text-anchor="middle">
+          HOL
+        </text>
+
+        <path
+          d="M 160 70 L 180 90 L 160 110"
+          fill="none"
+          stroke="#6b7280"
+          stroke-width="2"
+          marker-end="url(#arrowhead)"
+        />
+
+        <defs>
+          <marker
+            id="arrowhead"
+            markerWidth="10"
+            markerHeight="7"
+            refX="10"
+            refY="3.5"
+            orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280" />
+          </marker>
+        </defs>
+
+        <text
+          x="160"
+          y="130"
+          fill="#6b7280"
+          font-size="12"
+          font-family="Arial, sans-serif"
+          text-anchor="middle">
+          Allocate
+        </text>
+      </svg>
+    ),
+  },
+  {
     title: "Students",
     link: "/students?studentStatus=complete",
     icon: (
@@ -204,7 +287,7 @@ export default function Page() {
           <Carousel images={imageList} />
         </section>
 
-        <section className="h-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section className="h-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {LabelList.map((label, index) => (
             <DashboardCard
               key={index}

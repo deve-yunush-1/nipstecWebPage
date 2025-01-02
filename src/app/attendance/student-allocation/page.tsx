@@ -58,9 +58,11 @@ const AllocateStudent = () => {
   const [hour, setHour] = useState(1);
   const [employees, setEmployees] = useState([]);
   const [startDate, setStartDate] = useState(new Date().toISOString());
+  const [endDate, setEndDate] = useState(new Date().toISOString());
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const searchParams = useSearchParams();
   const dataId = searchParams?.get("studentid");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!dataId) return;
@@ -122,6 +124,7 @@ const AllocateStudent = () => {
 
   const handleShowCalendar = () => {
     handleGenerateSchedule();
+    // setEndDate(schedule[schedule.length - 1].date);
   };
 
   const handleGenerateSchedule = () => {
@@ -138,6 +141,7 @@ const AllocateStudent = () => {
       selectedDays
     );
     setSchedule(generatedSchedule);
+    setEndDate(schedule[schedule.length - 1].date);
   };
 
   const handleCourseChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -167,6 +171,7 @@ const AllocateStudent = () => {
     delete newAllocations[day];
     delete allocations[day];
     setAllocations(newAllocations);
+    setEndDate(schedule[schedule.length - 1].date);
     handleGenerateSchedule();
   };
 
@@ -177,16 +182,18 @@ const AllocateStudent = () => {
   };
 
   const handleConfirmAllocation = async () => {
-    await allocateStudentTime(
+    setIsLoading(true);
+    const response = await allocateStudentTime(
       formData.userId,
       formData.courseId,
       Object.keys(allocations),
       selectedTime,
       startDate,
-      schedule[schedule.length - 1].date,
+      endDate,
       hour,
       formData.employeeId
     );
+    console.log(response);
   };
 
   return (
@@ -202,9 +209,7 @@ const AllocateStudent = () => {
           </div>
 
           <RescheduleCheckbox
-            onReschedule={function (): void {
-              throw new Error("Function not implemented.");
-            }}
+            onReschedule={function (): void {}}
             onTeacherReschedule={function (): void {
               throw new Error("Function not implemented.");
             }}
@@ -220,16 +225,6 @@ const AllocateStudent = () => {
             />
           </div>
           <div className="flex justify-between items-center mb-4">
-            <InputField
-              type="date"
-              onChange={(e: {target: {value: any}}) =>
-                setStartDate(e.target.value)
-              }
-              id={startDate}
-              label={"Class Start Date"}
-              value={startDate}
-              className={``}
-            />
             <SelectField
               id="course"
               label="Choose Teacher"
@@ -283,7 +278,28 @@ const AllocateStudent = () => {
                 </div>
               </div>
             </div>
-
+            <div className="flex justify-between items-center">
+              <InputField
+                type="date"
+                onChange={(e: {target: {value: any}}) =>
+                  setStartDate(e.target.value)
+                }
+                id={startDate}
+                label={"Class Start Date"}
+                value={startDate}
+                className={``}
+              />
+              <InputField
+                type={"date"}
+                onChange={(e: {target: {value: any}}) =>
+                  setEndDate(e.target.value)
+                }
+                className={``}
+                id={""}
+                label={"End Date"}
+                value={endDate}
+              />
+            </div>
             <div className="flex justify-between items-center">
               <InputField
                 type="number"
@@ -321,7 +337,7 @@ const AllocateStudent = () => {
             <button
               onClick={handleConfirmAllocation}
               className="w-full py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
-              Submit
+              {!isLoading ? "Confirm" : "Confirming..."}
             </button>
           </div>
 
@@ -394,7 +410,7 @@ const allocateStudentTime = async (
     duration,
     employeeId,
   };
-  console.log("Data ", date);
+
   const response = await fetch(`${DB_URL()}/attendance/allocation`, {
     method: "POST",
     headers: {

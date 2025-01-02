@@ -186,7 +186,9 @@ const HolidayList = () => {
                 <tr key={holiday.id}>
                   <td className="border-b py-2 px-4">{holiday.reason}</td>
                   <td className="border-b py-2 px-4">{holiday.holiday}</td>
-                  <td className="border-b py-2 px-4">{holiday.description}</td>
+                  <td className="border-b py-2 px-4 max-w-xs">
+                    {holiday.description}
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -35,12 +35,14 @@ export const LoginForm = ({onLogin}: {onLogin: any}) => {
         body: JSON.stringify({email, password}),
       });
 
-      const result = await response.json();
-
+      const {message, object, statusCode, token} = await response.json();
+      console.log();
       if (response.ok) {
-        onLogin(result);
+        sessionStorage.setItem("token", token);
+        // Login successful, store token and user data
+        onLogin(message, object, token);
       } else {
-        setError(result.message || "Login failed. Please try again.");
+        setError(message || "Login failed. Please try again.");
       }
     } catch (err) {
       setError("An error occurred. Please try again.");

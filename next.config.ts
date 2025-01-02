@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
           "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "https://nipstecstorage.blob.core.windows.net",
+        pathname: "/**",
+      },
     ],
   },
   eslint: {

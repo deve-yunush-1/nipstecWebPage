@@ -9,6 +9,7 @@ export type User = {
   dob: string;
   gender: string;
   status: string;
+  profileUrl: string;
   registration_number: string;
   qualification: string;
   password: string;

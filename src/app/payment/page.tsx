@@ -60,6 +60,12 @@ function PaymentComponent() {
     cash: [{value: "cash", label: "CASH"}],
   };
 
+  const trans = [
+    {value: "Lumsum", label: "Lumsum"},
+    {value: "Registration", label: "Registration"},
+    {value: "Installment", label: "Installments"},
+  ];
+
   useEffect(() => {
     if (!dataId) return;
     var courseOptions: [];
@@ -91,23 +97,6 @@ function PaymentComponent() {
     setFormData((prev) => ({...prev, [id]: value}));
   };
 
-  const handleSearch = async (e: any) => {
-    e.preventDefault();
-    if (!formData.query.trim()) {
-      alert("Please enter the search query.");
-      return;
-    }
-
-    try {
-      const res = await fetch(
-        `${DB_URL()}/user/search?query=${encodeURIComponent(formData.query)}`
-      );
-      const data = await res.json();
-    } catch (error) {
-      console.error("Error searching data:", error);
-    }
-  };
-
   const installmentDetails = {
     modeOfPayment,
     methodOfPayment,
@@ -117,7 +106,9 @@ function PaymentComponent() {
 
   const handleFormSubmit = async (e: {preventDefault: () => void}) => {
     e.preventDefault();
-
+    if (!(amount > 0 && modeOfPayment !== " " && methodOfPayment !== " ")) {
+      alert("All fields are required!");
+    }
     setLoadingSubmit(true);
     try {
       const res = await fetch(
@@ -135,6 +126,10 @@ function PaymentComponent() {
 
       const {message} = await res.json();
       setFlag((prev) => true);
+      setModeOfPayment("");
+      setMethodOfPayment("");
+      setTransParticular("");
+      setAmount(0);
       setMessage(`Payment details submitted successfully!`);
       setIsSuccess(true);
     } catch (error) {
@@ -178,33 +173,11 @@ function PaymentComponent() {
       <Navbar />
       <div className="flex mt-[100px] justify-center items-center min-w-screen">
         <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6">
-          {/* <form className="mb-6" onSubmit={handleSearch}>
-            <label
-              htmlFor="query"
-              className="block text-lg font-medium text-gray-700">
-              Search Here
-            </label>
-            <div className="flex gap-2 mt-2">
-              <input
-                id="query"
-                type="search"
-                value={formData.query}
-                onChange={handleInputChange}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Search by enquiry/registration number"
-              />
-              <button
-                type="submit"
-                className="px-6 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700">
-                {loadingSearching ? "Searching..." : "Search"}
-              </button>
-            </div>
-          </form> */}
-
           <div className="flex justify-between">
             <div className="font-bold text-2xl mb-2 text-blue-500">
               Payment History :- {formData.receivedFrom}
             </div>
+
             <SelectField
               id="course"
               label="Enrolled Courses"
@@ -240,10 +213,10 @@ function PaymentComponent() {
                   setAmount(Number(e.target.value))
                 }
               />
-              <InputField
+              <SelectField
                 id="transactionParticular"
                 label="Transaction Particular"
-                type="text"
+                options={trans}
                 value={transParticular}
                 onChange={(e: {
                   target: {value: React.SetStateAction<string>};
@@ -305,6 +278,7 @@ function InputField({
         {label}
       </label>
       <input
+        required={true}
         id={id}
         type={type}
         value={value}
@@ -335,6 +309,7 @@ function SelectField({
         {label}
       </label>
       <select
+        required={true}
         id={id}
         value={value}
         onChange={onChange}
