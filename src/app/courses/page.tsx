@@ -36,6 +36,7 @@ function ProductsPage() {
     try {
       const data: Product[] = await fetchProducts(category.toUpperCase());
       setProducts(data); // Update state with fetched products
+      console.log(data);
     } catch (error) {
       console.error("Error fetching products:", error);
     } finally {

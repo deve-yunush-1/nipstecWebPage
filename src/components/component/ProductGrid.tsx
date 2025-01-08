@@ -12,6 +12,7 @@ interface Product {
   price: number;
   imageUri: string;
   duration: number;
+  webPageUrl: string;
 }
 
 export default function ProductsGrid({products}: {products: Product[]}) {
@@ -45,14 +46,7 @@ export default function ProductsGrid({products}: {products: Product[]}) {
   };
 
   const redirect_new_page = (title: string) => {
-    window.open(
-      `https://www.nipstec.com/malviya-nagar/${title
-        .trim()
-        .split(" ")
-        .join("-")
-        .toLowerCase()}/`,
-      "_blank"
-    );
+    window.open(`${title}/`, "_blank");
   };
 
   return (
@@ -73,7 +67,7 @@ export default function ProductsGrid({products}: {products: Product[]}) {
       {/* Product Grid */}
       <div className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 max-sm:grid-cols-2 sm:grid-cols-2 sm:grid-center gap-6">
         {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
+          filteredProducts.map((product: Product) => (
             <div
               key={product.id}
               className="relative flex flex-col items-left border border-gray-300 p-4 rounded-lg shadow hover:shadow-lg hover:border-blue-500 transition">
@@ -88,7 +82,7 @@ export default function ProductsGrid({products}: {products: Product[]}) {
                   src={product.imageUri} // 1920 x 1080
                   alt={product.title}
                   width={200}
-                  onClick={() => redirect_new_page(product.title)}
+                  onClick={() => redirect_new_page(product.webPageUrl)}
                   loading="lazy"
                   placeholder="blur"
                   blurDataURL="https://placehold.co/1920x1080"
