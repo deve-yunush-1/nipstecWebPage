@@ -425,7 +425,7 @@ const allocateStudentTime = async (
   return data;
 };
 
-export function InputField({
+function InputField({
   id,
   label,
   type = "text",

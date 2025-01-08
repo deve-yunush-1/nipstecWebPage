@@ -7,7 +7,7 @@ import {User} from "@/modal/User";
 import SearchBar from "./SearchBarComponet";
 import {CapitalizeFirstLetter} from "../ui/CapitaliseText";
 import {DB_URL} from "@/modal/db_url";
-import {InputField} from "@/app/attendance/student-allocation/page";
+import {InputField} from "../ui/InputField";
 
 export const UserTable = ({users, title}: {users: User[]; title: string}) => {
   const [filteredProducts, setFilteredProducts] = useState<User[]>(users);
