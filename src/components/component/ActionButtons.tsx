@@ -3,6 +3,7 @@
 // app/products/ActionButtons.tsx
 import Link from "next/link";
 import React from "react";
+import {DeleteSelectedProducts} from "./ProductGrid";
 
 interface ActionButtonsProps {
   selectedProductIds: string[];
@@ -83,12 +84,8 @@ export const ActionButtons = React.memo(
 
         {/* Delete Product Button */}
         {/* {selectedProductIds.length === 1 && (
-        <button
-          onClick={onDeleteSelected}
-          className="bg-red-500 text-white py-2 px-6 rounded-lg hover:bg-red-600 w-full md:w-auto">
-          Delete Selected Products
-        </button>
-      )} */}
+          <DeleteSelectedProducts courseId={selectedProductIds[0]} />
+        )} */}
       </div>
     );
   }

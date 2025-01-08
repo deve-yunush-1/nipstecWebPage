@@ -289,18 +289,7 @@ const AllocateStudent = () => {
                 value={startDate}
                 className={``}
               />
-              <InputField
-                type={"date"}
-                onChange={(e: {target: {value: any}}) =>
-                  setEndDate(e.target.value)
-                }
-                className={``}
-                id={""}
-                label={"End Date"}
-                value={endDate}
-              />
-            </div>
-            <div className="flex justify-between items-center">
+
               <InputField
                 type="number"
                 onChange={(e: {target: {value: any}}) =>
@@ -322,6 +311,7 @@ const AllocateStudent = () => {
                 className={``}
               />
             </div>
+
             <div className="flex justify-between space-x-2">
               <button
                 onClick={handleAllocate}
@@ -333,6 +323,18 @@ const AllocateStudent = () => {
                 className="w-full py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
                 Estimated Schedule
               </button>
+            </div>
+            <div className="justify-between items-center">
+              <InputField
+                type={"date"}
+                onChange={(e: {target: {value: any}}) =>
+                  setEndDate(e.target.value)
+                }
+                className={`bg-gray-400`}
+                id={""}
+                label={"End Date"}
+                value={endDate}
+              />
             </div>
             <button
               onClick={handleConfirmAllocation}
@@ -423,7 +425,7 @@ const allocateStudentTime = async (
   return data;
 };
 
-function InputField({
+export function InputField({
   id,
   label,
   type = "text",

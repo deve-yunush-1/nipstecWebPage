@@ -15,6 +15,7 @@ export default function ProductForm({productId, onSubmit}: ProductFormProps) {
   const [description, setDescription] = useState("");
   const [duration, setDuration] = useState(0);
   const [imageUri, setImageUri] = useState("");
+  const [webPageUrl, setWebPageUrl] = useState("");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [syllabus, setSyllabus] = useState("");
@@ -42,6 +43,7 @@ export default function ProductForm({productId, onSubmit}: ProductFormProps) {
       setPrice(data.price);
       setCategory(data.category);
       setSyllabus(data.syllabus);
+      setWebPageUrl(data.webPageUrl);
     } catch (error) {
       console.error("Error fetching product details:", error);
     }
@@ -59,6 +61,7 @@ export default function ProductForm({productId, onSubmit}: ProductFormProps) {
       category,
       syllabus,
       imageUri,
+      webPageUrl: webPageUrl,
     };
 
     // Call the onSubmit function to save the product (add or update)
@@ -158,6 +161,20 @@ export default function ProductForm({productId, onSubmit}: ProductFormProps) {
             value={duration}
             placeholder="Enter course duration"
             onChange={(e) => setDuration(Number(e.target.value))}
+            className="w-full border rounded-lg p-2 focus:outline-blue-500"
+          />
+        </div>
+
+        <div className="col-span-2 focus:input:lable">
+          <label className="block text-blue-500 mb-2" htmlFor="courseImage">
+            Web Page URL
+          </label>
+          <input
+            type="text"
+            id="courseImage"
+            value={webPageUrl}
+            placeholder="Enter course image URL"
+            onChange={(e) => setWebPageUrl(e.target.value)}
             className="w-full border rounded-lg p-2 focus:outline-blue-500"
           />
         </div>

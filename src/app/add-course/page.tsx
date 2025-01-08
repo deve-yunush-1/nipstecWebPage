@@ -24,10 +24,8 @@ function Form() {
   const [category, setCategory] = useState("");
   const [syllabus, setSyllabus] = useState("");
   const [err, setErr] = useState("");
+  const [webPageUrl, setWebPageUrl] = useState("");
   const [loading, setLoading] = useState(false);
-  const [apiUrl, setApiUrl] = useState(
-    "https://nipstec-alpha-service-fbeue3c0edgyarap.canadacentral-01.azurewebsites.net/api"
-  );
   const courseDetails = {
     title,
     description,
@@ -37,13 +35,12 @@ function Form() {
     category,
     syllabus,
     imageUri,
+    webPageUrl,
   };
-  useEffect(() => {
-    setApiUrl(DB_URL());
-  });
-  async function addProduct(apiUrl: string) {
+
+  async function addProduct() {
     setLoading(true);
-    fetch(apiUrl + "/course/product", {
+    fetch(DB_URL() + "/course", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -64,8 +61,7 @@ function Form() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
-
+        setErr(data.message);
         console.log("Success:", data);
       })
       .catch((error) => {
@@ -75,7 +71,7 @@ function Form() {
 
   const handleFormSubmit = async (event: {preventDefault: () => void}) => {
     event.preventDefault();
-    addProduct(apiUrl);
+    addProduct();
 
     // return router.push('/dashboard/products')
   };
@@ -167,7 +163,19 @@ function Form() {
             className="w-full border rounded-lg p-2 focus:outline-blue-500"
           />
         </div>
-
+        {/* Course Web Page URL */}
+        <div className="col-span-2">
+          <label className="block text-blue-500 mb-2" htmlFor="courseImage">
+            Course Web Page URL
+          </label>
+          <input
+            type="text"
+            id="courseImage"
+            placeholder="Enter course image URL"
+            onChange={(e) => setWebPageUrl(e.target.value)}
+            className="w-full border rounded-lg p-2 focus:outline-blue-500"
+          />
+        </div>
         {/* Course Image URL */}
         <div className="col-span-2">
           <label className="block text-blue-500 mb-2" htmlFor="courseImage">

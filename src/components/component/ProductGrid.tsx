@@ -4,6 +4,7 @@ import {useCallback, useState} from "react";
 import Image from "next/image";
 import {ActionButtons} from "@/components/component/ActionButtons";
 import SearchBar from "./SearchBarComponet";
+import {DB_URL} from "@/modal/db_url";
 
 interface Product {
   id: string;
@@ -147,6 +148,105 @@ export const SelectItem = ({
         checked={selectedProducts.includes(product.id!)}
         onChange={() => handleCheckboxChange(product.id!)}
         className="mr-2 w-5 h-5 mb-2"
+      />
+    </div>
+  );
+};
+
+const DeleteProductModal = ({
+  isOpen,
+  onClose,
+  onDelete,
+}: {
+  isOpen: any;
+  onClose: any;
+  onDelete: any;
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-white rounded-lg p-6 w-96">
+        <h2 className="text-xl font-bold mb-4">
+          Are you sure you want to delete the selected products?
+        </h2>
+        <div className="flex justify-between">
+          <button
+            className="px-4 py-2 bg-gray-300 text-black rounded-md hover:bg-gray-400"
+            onClick={onClose}>
+            Cancel
+          </button>
+          <button
+            className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+            onClick={onDelete}>
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const DeleteSelectedProducts = ({courseId}: {courseId: any}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProducts, setSelectedProducts] = useState([
+    /* List of selected products */
+  ]);
+
+  // Function to open modal
+  const handleDeleteClick = () => {
+    setIsModalOpen(true);
+  };
+
+  // Close modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // Function to delete selected products
+  const handleDelete = async () => {
+    try {
+      // Make the API call to delete the products
+      const response = await fetch(
+        `${DB_URL()}/course/delete?courseId=${courseId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({products: selectedProducts}), // Passing selected products in request body
+        }
+      );
+
+      if (response.ok) {
+        // On success, close modal and handle successful deletion
+        alert("Products deleted successfully");
+        setIsModalOpen(false);
+        setSelectedProducts([]); // Optionally, clear the selection
+      } else {
+        alert("Error deleting products");
+      }
+
+      console.log(response);
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while deleting products");
+    }
+  };
+
+  return (
+    <div>
+      <button
+        onClick={handleDeleteClick}
+        className="bg-red-500 text-white py-2 px-6 rounded-lg hover:bg-red-600 w-full md:w-auto">
+        Delete Selected Products
+      </button>
+
+      {/* Modal */}
+      <DeleteProductModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onDelete={handleDelete}
       />
     </div>
   );

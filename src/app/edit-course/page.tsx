@@ -1,8 +1,7 @@
 /** @format */
 
 "use client";
-
-import React, {Suspense, useState, useEffect} from "react";
+import React, {Suspense, useState} from "react";
 import {useSearchParams} from "next/navigation";
 import SideNav from "../Navbar";
 import ProductForm from "@/components/component/ProductForm";
@@ -33,6 +32,7 @@ const EditCoursePage = () => {
           throw new Error("Failed to fetch data");
         }
         const {message} = await res.json();
+        console.log(message);
         if (message === "success") {
           setIsSuccess(true);
           setMessage(message);
