@@ -320,7 +320,7 @@ function UserProfile() {
                     />
                     <div className="mt-3 flex justify-between w-full">
                       <p className="text-md font-bold text-gray-700">
-                        ₹ {enroll.product.price}
+                        ₹ {enroll.totalFee}
                       </p>
                       <p className="text-md font-bold text-gray-700">
                         Duration: {enroll.product.duration} hr.

@@ -57,7 +57,7 @@ function UserComponent() {
       </header>
 
       {/* Main Content */}
-      <main className="pt-[150px] flex-1 min-w-screen bg-gray-100">
+      <main className="flex-1 min-w-screen bg-gray-100">
         <section className="mb-6 container mx-auto p-4">
           <div className="flex justify-between">
             <div className="flex space-x-4 bg-gray-200 p-2 rounded-lg">

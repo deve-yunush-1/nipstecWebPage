@@ -36,7 +36,7 @@ export const addStudentAttendanceByTeacher = async ({
     const data = await response.json();
     console.log(data);
     if (data.statusCode === 200) {
-      location.reload();
+      // location.reload();
     }
     return data;
   } catch (error) {

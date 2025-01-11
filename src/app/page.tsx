@@ -139,7 +139,26 @@ const LabelList = [
   },
   {
     title: "Attendance",
-    link: "/attendance/student-attendance",
+    link: "/attendance",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="currentColor"
+        className="w-12 h-12 mx-auto text-purple-600">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M19.5 6h-15a.75.75 0 00-.75.75v13.5c0 .414.336.75.75.75h15a.75.75 0 00.75-.75V6.75A.75.75 0 0019.5 6zM4.5 4.5V6m15-1.5V6M6.75 10.5h10.5"
+        />
+      </svg>
+    ),
+  },
+  {
+    title: "Dashboard",
+    link: "/dashboard",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +177,7 @@ const LabelList = [
   },
   {
     title: "Class allocation",
-    link: "/attendance/student-allocation",
+    link: "/dashboard/allocated-student",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -123,7 +123,7 @@ export const UserTable = ({users, title}: {users: User[]; title: string}) => {
                     {user.status.toLocaleLowerCase() === "complete" ? (
                       <td>
                         <Link
-                          href={`/attendance/student-allocation?studentid=${user.id}`}>
+                          href={`/dashboard/student-allocation?studentid=${user.id}`}>
                           <button className="px-3 py-1 gap-2 bg-blue-500 rounded-md hover:bg-blue:600 text-white">
                             Allocate
                           </button>

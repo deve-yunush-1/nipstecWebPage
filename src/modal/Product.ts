@@ -9,4 +9,5 @@ export type Product = {
   imageUri: string;
   id: string;
   duration: number;
+  webPageUrl: string;
 };

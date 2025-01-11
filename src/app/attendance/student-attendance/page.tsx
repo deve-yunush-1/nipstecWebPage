@@ -136,22 +136,9 @@ const AllocatedStudents: React.FC = () => {
     }
   }, []);
 
-  const handleLogin = (
-    message: any,
-    object: {employeeId: any; firstname: any; lastname: any},
-    token: any
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      employeeId: object.employeeId,
-      employee: object.firstname + " " + object.lastname || "",
-    }));
-
-    // You can save the token in localStorage or perform other actions
-    sessionStorage.setItem("token", token);
-    setVisible(true);
+  useEffect(() => {
     handleScheduleStudent();
-  };
+  }, []);
 
   const handleScheduleStudent = async (): Promise<void> => {
     try {
@@ -213,11 +200,8 @@ const AllocatedStudents: React.FC = () => {
 
   return (
     <>
-      <header>
-        <Navbar />
-      </header>
       {isVisible ? (
-        <div className="mx-auto max-h-screen mt-[120px] ml-10 mr-10">
+        <div className="pt-[60px] ml-10 mr-10">
           <div className="flex justify-between">
             <h1 className="text-xl font-bold mb-4">
               Allocated Teacher: {formData.employee}
@@ -235,44 +219,50 @@ const AllocatedStudents: React.FC = () => {
               Mark Attendance
             </button>
           </div>
-          <table className="table-auto w-full border-collapse border border-gray-300">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border border-gray-300 px-4 py-2">Select</th>
-                <th className="border border-gray-300 px-4 py-2">
-                  Student Name
-                </th>
-                <th className="border border-gray-300 px-4 py-2">Course</th>
-                <th className="border border-gray-300 px-4 py-2">Time</th>
-                <th className="border border-gray-300 px-4 py-2">Day</th>
-              </tr>
-            </thead>
-            <tbody>
-              {allocations.map((allocation) => (
-                <tr key={allocation.id}>
-                  <td className="border border-gray-300 px-4 py-2 text-center">
-                    <input
-                      type="checkbox"
-                      checked={selectedAllocations.includes(allocation.id)}
-                      onChange={() => handleCheckboxChange(allocation)}
-                    />
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    <CapitalizeFirstLetter text={allocation.studentName} />
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {allocation.course}
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {allocation.time}
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {allocation.day}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 border border-gray-300 p-4">
+            {/* Header */}
+            <div className="font-bold bg-gray-100 p-2 border-b border-gray-300">
+              Select
+            </div>
+            <div className="font-bold bg-gray-100 p-2 border-b border-gray-300">
+              Student Name
+            </div>
+            <div className="font-bold bg-gray-100 p-2 border-b border-gray-300">
+              Course
+            </div>
+            <div className="font-bold bg-gray-100 p-2 border-b border-gray-300">
+              Time
+            </div>
+            <div className="font-bold bg-gray-100 p-2 border-b border-gray-300">
+              Day
+            </div>
+
+            {/* Body */}
+            {allocations.map((allocation) => (
+              <>
+                <div className="p-2 border-t border-gray-300 flex items-center justify-center">
+                  <input
+                    type="checkbox"
+                    checked={selectedAllocations.includes(allocation.id)}
+                    onChange={() => handleCheckboxChange(allocation)}
+                  />
+                </div>
+                <div className="p-2 border-t border-gray-300">
+                  <CapitalizeFirstLetter text={allocation.studentName} />
+                </div>
+                <div className="p-2 border-t border-gray-300">
+                  {allocation.course}
+                </div>
+                <div className="p-2 border-t border-gray-300">
+                  {allocation.time}
+                </div>
+                <div className="p-2 border-t border-gray-300">
+                  {allocation.day}
+                </div>
+              </>
+            ))}
+          </div>
+
           <div className="mt-4">
             <h2 className="text-lg font-semibold">Attendent Students:</h2>
             <ul className="list-disc ml-5">
@@ -290,7 +280,7 @@ const AllocatedStudents: React.FC = () => {
           </div>
         </div>
       ) : (
-        <LoginForm onLogin={handleLogin} />
+        <div>You are not authenticated, Please Try again</div>
       )}
     </>
   );

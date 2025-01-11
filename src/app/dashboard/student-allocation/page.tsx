@@ -201,8 +201,8 @@ const AllocateStudent = () => {
       <header>
         <Navbar />
       </header>
-      <div className="flex mt-[100px] justify-center">
-        <div className="mx-auto max-h-screen overflow-auto p-6 bg-white rounded-lg shadow-lg">
+      <div className="flex justify-center">
+        <div className="mx-auto overflow-auto p-6 bg-white rounded-lg shadow-lg">
           <div className="flex justify-between font-bold text-2xl mb-2 text-blue-500">
             <span>Allocate Time:</span>
             <CapitalizeFirstLetter text={formData.name} />
@@ -402,23 +402,21 @@ const allocateStudentTime = async (
   duration: number,
   employeeId: string | null
 ) => {
-  let date = {
-    userId,
-    productId,
-    dayOfWeek,
-    time,
-    startDate,
-    endDate,
-    duration,
-    employeeId,
-  };
-
   const response = await fetch(`${DB_URL()}/attendance/allocation`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(date),
+    body: JSON.stringify({
+      userId,
+      productId,
+      dayOfWeek,
+      time,
+      startDate,
+      endDate,
+      duration,
+      employeeId,
+    }),
   });
   const data = await response.json();
   location.reload();
@@ -530,7 +528,7 @@ function generateClassSchedule(
   return schedule;
 }
 
-function SelectField({
+export function SelectField({
   id,
   label,
   value,
