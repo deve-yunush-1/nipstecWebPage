@@ -527,8 +527,15 @@ function generateClassSchedule(
 
   return schedule;
 }
+interface SelectFieldProps {
+  id: string;
+  label: string;
+  value: any;
+  options: any[];
+  onChange: (value: any) => void;
+}
 
-export function SelectField({
+const SelectField: React.FC<SelectFieldProps> = ({
   id,
   label,
   value,
@@ -540,7 +547,7 @@ export function SelectField({
   options: any;
   value: any;
   onChange: any;
-}) {
+}) => {
   return (
     <div>
       <label htmlFor={id} className="block font-medium text-gray-700">
@@ -565,7 +572,7 @@ export function SelectField({
       </select>
     </div>
   );
-}
+};
 
 export default function Page() {
   return (

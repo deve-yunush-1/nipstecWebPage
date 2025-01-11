@@ -1,7 +1,6 @@
 /** @format */
 
 "use client";
-import {SelectField} from "@/app/dashboard/student-allocation/page";
 import {CapitalizeFirstLetter} from "@/components/ui/CapitaliseText";
 import {getAllocatedByCurrentMonth} from "@/service/getAllocatedByCurrentMonth";
 
@@ -162,3 +161,50 @@ export default function Page() {
     </>
   );
 }
+
+interface SelectFieldProps {
+  id: string;
+  label: string;
+  value: any;
+  options: any[];
+  onChange: (value: any) => void;
+}
+
+const SelectField: React.FC<SelectFieldProps> = ({
+  id,
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  id: any;
+  label: any;
+  options: any;
+  value: any;
+  onChange: any;
+}) => {
+  return (
+    <div>
+      <label htmlFor={id} className="block font-medium text-gray-700">
+        {label}
+      </label>
+      <select
+        id={id}
+        value={value}
+        onChange={onChange}
+        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="" disabled>
+          Select an option
+        </option>
+        {options.map((opt: {value: any; label: any; courseId: string}) => (
+          <option
+            key={`${opt.value}`}
+            data-product-id={opt.courseId}
+            value={`${opt.value}`}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
