@@ -2,7 +2,6 @@
 "use client";
 import {LoginForm} from "@/components/component/LoggedInForm";
 import {getRoleFromToken} from "@/service/verification/getRoleFromToken";
-import {getGreeting} from "../attendance/layout";
 import {useRouter} from "next/navigation";
 import {useState} from "react";
 import {CounselorSidebar} from "@/components/component/CounselorSidebar";
@@ -72,13 +71,10 @@ export default function DashboardLayout({
               <div className="w-full px-3 py-5 grid grid-cols-2 fixed bg-gray-100 border-b border-gray-300 items-center z-10">
                 {/* Greeting Section */}
                 <div className="text-blue-500 font-bold text-xl truncate">
-                  {getGreeting()}
+                  {getGreeting(formData.employee! || "")}
                 </div>
 
                 {/* Teacher Name Section */}
-                <div className="text-blue-500 mr-80 font-bold text-xl truncate text-right">
-                  Teacher name: {formData.employee}
-                </div>
               </div>
 
               {/* Main Content */}
@@ -96,4 +92,18 @@ export default function DashboardLayout({
       </div>
     </>
   );
+}
+
+function getGreeting(name: string): string {
+  const currentHour = new Date().getHours(); // Get the current hour (0-23)
+
+  if (currentHour >= 5 && currentHour < 12) {
+    return `Good Morning  \t--${name}-- \t Have a good day`;
+  } else if (currentHour >= 12 && currentHour < 18) {
+    return `Good Afternoon --${name}-- Have a good day`;
+  } else if (currentHour >= 18 && currentHour < 22) {
+    return `Good Evening --${name}-- I hope you have a wonderful day`;
+  } else {
+    return `Good night --${name}-- Sleep well and sweet dreams!`;
+  }
 }
