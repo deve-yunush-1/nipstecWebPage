@@ -38,6 +38,10 @@ export default function RootLayout({
         <div className="w-full min-w-screen mx-auto  mt-[100px]">
           {children}
         </div>
+        <Navbar />
+        <div className="w-full min-w-screen mx-auto  mt-[100px]">
+          {children}
+        </div>
       </body>
     </html>
   );
